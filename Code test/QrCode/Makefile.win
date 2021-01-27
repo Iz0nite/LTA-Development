@@ -1,0 +1,12 @@
+NAME = ./qrcode.exe
+SRCS = ./main.c ./qrcodegen.c
+
+all: $(NAME)
+
+$(NAME):
+	gcc -o $(NAME) $(SRCS)
+	cls
+	$(NAME)
+clean:
+	del -rf *.exe 
+re: clean all
