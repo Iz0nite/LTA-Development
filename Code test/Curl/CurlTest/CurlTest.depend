@@ -1,0 +1,48 @@
+# depslib dependency file v1.0
+1611752395 source:d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curltest\main.c
+	<stdio.h>
+	<stdlib.h>
+	<curl.h>
+
+1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curl-7.73.0_3-win32-mingw\include\curl\curl.h
+	"curlver.h"
+	"system.h"
+	<stdio.h>
+	<limits.h>
+	<osreldate.h>
+	<sys/types.h>
+	<time.h>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/select.h>
+	<sys/socket.h>
+	<sys/time.h>
+	<support/SupportDefs.h>
+	"easy.h"
+	"multi.h"
+	"urlapi.h"
+	"options.h"
+	"typecheck-gcc.h"
+
+1602647458 d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curl-7.73.0_3-win32-mingw\include\curl\curlver.h
+
+1601266970 d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curl-7.73.0_3-win32-mingw\include\curl\system.h
+	<winsock2.h>
+	<windows.h>
+	<ws2tcpip.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<sys/poll.h>
+
+1602218200 d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curl-7.73.0_3-win32-mingw\include\curl\easy.h
+
+1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curl-7.73.0_3-win32-mingw\include\curl\multi.h
+	"curl.h"
+
+1601266970 d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curl-7.73.0_3-win32-mingw\include\curl\urlapi.h
+	"curl.h"
+
+1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curl-7.73.0_3-win32-mingw\include\curl\options.h
+
+1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\code test\curl\curl-7.73.0_3-win32-mingw\include\curl\typecheck-gcc.h
+
