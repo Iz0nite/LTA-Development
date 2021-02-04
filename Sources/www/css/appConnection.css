@@ -1,0 +1,25 @@
+@font-face
+{
+    font-family: "Montserrat";
+    src: url("./../font/montserrat/montserrat-v15-latin-regular.woff") format("woff");
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body *
+{
+    font-family: "Montserrat", sans-serif;
+}
+
+/***** NO TRANSITION IN RELOAD PAGE *****/
+.preload * {
+    transition: none !important;
+}

@@ -1,0 +1,111 @@
+@font-face
+{
+    font-family: "Montserrat";
+    src: url("./../font/montserrat/montserrat-v15-latin-regular.woff") format("woff");
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body *
+{
+    font-family: "Montserrat", sans-serif;
+}
+
+/***** NO TRANSITION IN RELOAD PAGE *****/
+.preload * {
+    transition: none !important;
+}
+
+.profile{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    margin: 5% 25%;
+    padding: 1.5em 0;
+    border-radius: 10px;
+    border: solid 0.1em;
+}
+
+.profile>form{
+    width: 80%;
+    font-size: 1.75vh;
+}
+
+.profile>h3{
+    margin: 0 1.5em 1.5em 1.5em;
+}
+
+.profile>hr{
+    width: 100%;
+    margin: 1.5em 0;
+    color: black;
+}
+
+.companyInformation{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.companyInformation>div[class="field"]{
+    margin-bottom: 1em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.companyInformation>div[class="field"]>input, .companyInformation>div[class="field"]>select{
+    border-radius: 10px;
+    border: solid 0.1em black;
+    padding: 0.5em;
+    outline: none;
+}
+
+.profile input[type="submit"]{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #9ba3b3;
+    border: solid 0.1em #9ba3b3;
+    width: 25%;
+    padding: 0.2em;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.profile input[type="submit"]:hover{
+    color: white;
+    border: solid 0.1em black;
+    transition: .3s ease;
+}
+
+.passwordInformation{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.passwordInformation>div[class="field"]{
+    margin-bottom: 1em;
+    width: 100%;
+}
+
+.passwordInformation>div[class="field"]>input{
+    width: -webkit-fill-available;
+    border-radius: 10px;
+    border: solid 0.1em black;
+    padding: 0.5em;
+    outline: none;
+}

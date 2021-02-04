@@ -1,0 +1,54 @@
+header{
+    background-color: #303952;
+}
+
+
+header>nav{
+    margin: 0 15%;
+    height: 5vw;
+}
+
+header>nav>ul{
+    margin: 0px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding-left: 0px;
+}
+
+header a,
+header li,
+header .logout{
+    color: white;
+    font-size: 1em;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+header a:hover,
+header .logout:hover{
+    color: #718093;
+    transition: .3s ease;
+}
+
+#inscriptionconnexion{
+    display: flex;
+    min-width: 20vw;
+    border-radius: 15px;
+    justify-content: space-between;
+    text-align: center;
+}
+
+#inscriptionconnexion li{
+    width: auto;
+}
+
+/* nav{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
