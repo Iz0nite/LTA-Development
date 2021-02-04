@@ -8,6 +8,7 @@ int signIn(){
     char pseudo[50];
     char password[100];
     char query[255];
+    char httpRequest[255];
     int check=1;
     MYSQL_RES *result=NULL;
     MYSQL_ROW row;
@@ -31,18 +32,10 @@ int signIn(){
                pseudo[strlen(pseudo)-1]='\0';
            }
 
-            printf("Enter your password:\n\n");
-            fflush(stdin);
-            fgets(password,100,stdin);
-            if(password[strlen(password)-1]=='\n'){
-                password[strlen(password)-1]='\0';
-            }
 
-            strcpy(query,"SELECT idUser,password FROM USERS WHERE email='");
+            strcpy(query,"SELECT idUser FROM USERS WHERE email='");
             strcat(query,pseudo);
             strcat(query,"'");
-
-            printf("%s\n",query);
 
             mysql_query(&mysql,query);
             result = mysql_store_result(&mysql);
@@ -53,11 +46,23 @@ int signIn(){
                 check=0;
             }
 
-            if(check!=0){
-                if(strstr(password,row[1])==NULL){
-                    printf("Incorrect password");
-                    check=0;
-                }
+        }while(check!=1);
+
+        check=0;
+        strcpy(httpRequest, "start https://lta-development.fr/en/appConnection");
+        system(httpRequest);
+
+        do{
+           strcpy(query,"SELECT idUser,appSignIn FROM USERS WHERE email='");
+           strcat(query,pseudo);
+           strcat(query,"'");
+
+            mysql_query(&mysql,query);
+            result = mysql_store_result(&mysql);
+            row = mysql_fetch_row(result);
+
+            if(strcmp(row[1],"1")==0){
+                check=1;
             }
 
         }while(check!=1);
@@ -76,6 +81,5 @@ int main()
     int id;
 
     id=signIn();
-    printf("finish");
     return 0;
 }
