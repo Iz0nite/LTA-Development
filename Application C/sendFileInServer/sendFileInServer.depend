@@ -1,10 +1,16 @@
 # depslib dependency file v1.0
-1612443924 source:d:\theoj\documents\professionnel\projet annuel\lta-development\application c\sendfileinserver\main.c
+1612471880 source:d:\theoj\documents\professionnel\projet annuel\lta-development\application c\sendfileinserver\main.c
 	<stdio.h>
 	<stdlib.h>
 	<curl.h>
 	<MYSQL/mysql.h>
 	<string.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<errno.h>
+	<io.h>
+	<unistd.h>
 
 1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\curl.h
 	"curlver.h"
