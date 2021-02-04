@@ -4,10 +4,25 @@
 #include <MYSQL/mysql.h>
 #include <string.h>
 
-void sendFileInServer(int idUser){
+size_t readFunction(char *contents, size_t size, size_t nmemb, void *userp){
+  FILE *readhere = (FILE *)userp;
+  curl_off_t nread;
 
-    MYSQL_RES *result=NULL;
-    MYSQL_ROW row;
+  /* copy as much data as possible into the 'contents' buffer, but no more than
+     'size' * 'nmemb' bytes! */
+  size_t retcode = fread(contents, size, nmemb, readhere);
+
+  nread = (curl_off_t)retcode;
+
+  fprintf(stderr, "*** We read %" CURL_FORMAT_CURL_OFF_T
+          " bytes from file\n", nread);
+  return retcode;
+}
+
+void sendFileInServer(char* idUser){
+
+//    MYSQL_RES *result=NULL;
+//    MYSQL_ROW row;
 
     MYSQL mysql;
     mysql_init(&mysql);
@@ -19,34 +34,47 @@ void sendFileInServer(int idUser){
         int result;
         char errbuf[CURL_ERROR_SIZE];
 
-        char query[255];
-
         FILE *fp = NULL;
 
-        fp = fopen("file/DownloadedFile.txt", "wb");
+        fp = fopen("file/DownloadedFile.txt", "rb");
+
+        char query[255];
 
         //System("curl -u name:passwd ftp://machine.domain:port/full/path/to/file")
 
         curl = curl_easy_init(); //initialize CURL fonction
+
         if(curl){
 
             //curl_easy_setopt(curl, CURLOPT_URL, argv[1]);
 
-            curl_easy_setopt(curl, CURLOPT_URL, "https://www.lta-development.fr/users/"); //CURLOPT_ULR allow us to enter the url of the file we want to dl
+            curl_off_t uploadsize = -1;
 
-            strcpy(query, "https://www.lta-development.fr/users/");
+//            strcpy(query, "https://www.lta-development.fr/users/");
+            strcpy(query, "ftp://lta-development.fr/users/");
             strcat(query, idUser);
-            strcat(query, "' AND date_periode='");
-            strcat(query, data_date_periode);
-            strcat(query, "' AND lieu1='");
-            strcat(query, data_lieu1);
-            strcat(query, "' AND libelle_type='");
-            strcat(query, data_libelle_type);
-            strcat(query, "'");
+            strcat(query, "/");
 
-            curl_easy_setopt(curl, CURLOPT_URL, query);
+            printf("query = %s\n\n", query);
 
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp); //alow to write on the file we dl
+            curl_easy_setopt(curl, CURLOPT_URL, query); //CURLOPT_ULR allow us to enter the url of the file we want to dl
+
+
+            size_t function(char *bufptr, size_t size, size_t nitems, void *userp); //maybe not necessary
+
+            curl_easy_setopt(curl, CURLOPT_READFUNCTION, readFunction);    //maybe not necessary
+
+            curl_easy_setopt(curl, CURLOPT_READDATA, (void *)fp);    ////maybe not necessary
+
+
+            curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L); //tell libcurl that we want to upload
+
+            curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE, uploadsize);
+
+
+
+
+            //curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp); //alow to write on the file we dl
             curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
             curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errbuf);
             errbuf[0] = 0;
@@ -77,8 +105,11 @@ void sendFileInServer(int idUser){
 int main(int argc, char **argv){
 
     int idUser = 2;
+    char* idUserChar;
 
-    sendFileInServer(idUser);
+    idUserChar = malloc(sizeof(char)*3+1);
+
+    sendFileInServer(itoa(idUser,  idUserChar, 10));
 
     return 0;
 }

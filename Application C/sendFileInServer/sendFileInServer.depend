@@ -1,0 +1,71 @@
+# depslib dependency file v1.0
+1612443924 source:d:\theoj\documents\professionnel\projet annuel\lta-development\application c\sendfileinserver\main.c
+	<stdio.h>
+	<stdlib.h>
+	<curl.h>
+	<MYSQL/mysql.h>
+	<string.h>
+
+1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\curl.h
+	"curlver.h"
+	"system.h"
+	<stdio.h>
+	<limits.h>
+	<osreldate.h>
+	<sys/types.h>
+	<time.h>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/select.h>
+	<sys/socket.h>
+	<sys/time.h>
+	<support/SupportDefs.h>
+	"easy.h"
+	"multi.h"
+	"urlapi.h"
+	"options.h"
+	"typecheck-gcc.h"
+
+1602647458 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\curlver.h
+
+1601266970 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\system.h
+	<winsock2.h>
+	<windows.h>
+	<ws2tcpip.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<sys/poll.h>
+
+1602218200 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\easy.h
+
+1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\multi.h
+	"curl.h"
+
+1601266970 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\urlapi.h
+	"curl.h"
+
+1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\options.h
+
+1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\typecheck-gcc.h
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mysql.h
+	<stdarg.h>
+	<sys/types.h>
+	"mariadb_com.h"
+	"mariadb_version.h"
+	"ma_list.h"
+	"mariadb_ctype.h"
+	"mariadb_stmt.h"
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_com.h
+
+1605017624 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_version.h
+	<custom_conf.h>
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\ma_list.h
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_ctype.h
+	<ctype.h>
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_stmt.h
+
