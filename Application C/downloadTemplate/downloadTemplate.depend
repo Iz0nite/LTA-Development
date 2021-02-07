@@ -1,6 +1,6 @@
 # depslib dependency file v1.0
-1612706779 source:d:\theoj\documents\professionnel\projet annuel\lta-development\application c\sendfileinserver\main.c
-	"sendFileInServer.h"
+1612706461 source:d:\theoj\documents\professionnel\projet annuel\lta-development\application c\downloadtemplate\main.c
+	"downloadTemplate.h"
 
 1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\curl.h
 	"curlver.h"
@@ -44,33 +44,11 @@
 
 1602219428 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\libraries\curl-7.73.0_3-win32-mingw\include\curl\typecheck-gcc.h
 
-1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mysql.h
-	<stdarg.h>
-	<sys/types.h>
-	"mariadb_com.h"
-	"mariadb_version.h"
-	"ma_list.h"
-	"mariadb_ctype.h"
-	"mariadb_stmt.h"
+1612706415 source:d:\theoj\documents\professionnel\projet annuel\lta-development\application c\downloadtemplate\downloadtemplate.c
+	"downloadTemplate.h"
 
-1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_com.h
-
-1605017624 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_version.h
-	<custom_conf.h>
-
-1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\ma_list.h
-
-1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_ctype.h
-	<ctype.h>
-
-1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_stmt.h
-
-1612706942 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\sendfileinserver\include\sendfileinserver.h
+1612706385 d:\theoj\documents\professionnel\projet annuel\lta-development\application c\downloadtemplate\include\downloadtemplate.h
 	<stdio.h>
 	<stdlib.h>
-	<string.h>
-	<sys/types.h>
-	<sys/stat.h>
 	<curl.h>
-	<MYSQL/mysql.h>
 
