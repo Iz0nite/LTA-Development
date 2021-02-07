@@ -1,6 +1,1 @@
-Package weight
-Package volume size
-Type of delivery (standard or express)
-Depot address
-Depot city
-Email of the receiver
+Package weight;Package volume size;Type of delivery (standard or express);Depot address;Depot city;Email of the receiver

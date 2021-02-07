@@ -2,14 +2,52 @@
 
 #define PATH "./excelFile/"
 
-t_package *getDataExcelFile(char *filename)
+t_package *addChain(t_package *package, unsigned char **data)
+{
+	t_package *newPackage;
+
+	newPackage = malloc(sizeof(t_package));
+	newPackage->deliveryType = malloc(sizeof(char) * 20);
+	newPackage->address = malloc(sizeof(char) * 256);
+	newPackage->city = malloc(sizeof(char) * 60);
+	newPackage->emailDest = malloc(sizeof(char) * 256);
+
+	newPackage->weight = atoi(data[0]);
+	newPackage->volume = atoi(data[1]);
+	strcpy(newPackage->deliveryType, data[2]);
+	strcpy(newPackage->address, data[3]);
+	strcpy(newPackage->city, data[4]);
+	strcpy(newPackage->emailDest, data[5]);
+
+	if (!package)
+	{
+		newPackage->next = NULL;
+		return newPackage;
+	}
+	else
+	{
+		newPackage->next = package;
+		return newPackage;
+	}
+}
+
+
+
+t_package *getDataExcelFile(char *filename, t_package *package)
 {
 	FILE *fp;
-	t_package *package;
 	unsigned char buffer[2];
-	unsigned char *key;
-	unsigned char *data;
+	unsigned char **data;
 	char *pathFile;
+	int startProcess;
+	int dataPosition;
+
+	startProcess = 0;
+	dataPosition = 0;
+
+	data = malloc(sizeof(char *) * 6);
+	for(int i= 0; i < 6; i++)
+		data[i] = malloc(sizeof(char) * 256);
 
 	pathFile = malloc(sizeof(char) * 256);
 
@@ -20,53 +58,38 @@ t_package *getDataExcelFile(char *filename)
 
 	if(fp)
 	{
-		key = malloc(sizeof(char) * 60);
-		data = malloc(sizeof(char) * 256);
+		strcpy(data[0], "");
+		strcpy(data[1], "");
+		strcpy(data[2], "");
+		strcpy(data[3], "");
+		strcpy(data[4], "");
+		strcpy(data[5], "");
 
-		package = malloc(sizeof(t_package));
-		package->deliveryType = malloc(sizeof(char) * 20);
-		package->address = malloc(sizeof(char) * 256);
-		package->city = malloc(sizeof(char) * 60);
-		package->emailDest = malloc(sizeof(char) * 256);
-
-		strcpy(key, "");
-		while(fread(buffer, sizeof(unsigned char), 1, fp), !feof(fp))
+		while(fread(buffer, sizeof(char), 1, fp), !feof(fp))
 		{
 			buffer[1] = '\0';
 
-			if(buffer[0] == ';')
+			if(buffer[0] == '\n' && !startProcess)
+				startProcess = 1;
+
+			if(buffer[0] == ';' || buffer[0] == '\n')
+				dataPosition++;
+
+			if(startProcess && buffer[0] != ';' && buffer[0] != '\n')
+				strcat(data[dataPosition % 6], buffer);
+
+			if ((dataPosition % 6 == 0) && dataPosition > 6 && buffer[0] == '\n')
 			{
-				strcpy(data, "");
+				package = addChain(package, data);
 
-				while(fread(buffer, sizeof(unsigned char), 1, fp), buffer[0] != '\n')
-				{
-					buffer[1] = '\0';
-
-					if (buffer[0] != '\n')
-						strcat(data, buffer);
-				}
-
-				if(!strcmp(key, "Package weight"))
-					package->weight = atoi(data);
-				else if(!strcmp(key, "Package volume size"))
-					package->volume = atoi(data);
-				else if(!strcmp(key, "Type of delivery (standard or express)"))
-					strcpy(package->deliveryType, data);
-				else if(!strcmp(key, "Depot address"))
-					strcpy(package->address, data);
-				else if(!strcmp(key, "Depot city"))
-					strcpy(package->city, data);
-				else if(!strcmp(key, "Email of the receiver"))
-					strcpy(package->emailDest, data);
-
-				strcpy(key, "");
+				strcpy(data[0], "");
+				strcpy(data[1], "");
+				strcpy(data[2], "");
+				strcpy(data[3], "");
+				strcpy(data[4], "");
+				strcpy(data[5], "");
 			}
-			else
-				strcat(key, buffer);
 		}
-
-		free(key);
-		free(data);
 	}
 	else
 	{

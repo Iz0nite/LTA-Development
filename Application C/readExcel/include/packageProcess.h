@@ -13,8 +13,11 @@ typedef struct s_package
 	char *address;
 	char *city;
 	char *emailDest;
+	struct s_package *next;
 } t_package;
 
-t_package *getDataExcelFile(char *filename);
+t_package *getDataExcelFile(char *filename, t_package *packSage);
+
+t_package *addChain(t_package *package, unsigned char **data);
 
 #endif
