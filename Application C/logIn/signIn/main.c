@@ -33,7 +33,7 @@ int signIn(){
            }
 
 
-            strcpy(query,"SELECT idUser FROM USERS WHERE email='");
+            strcpy(query,"SELECT idUser,appSignIn FROM USERS WHERE email='");
             strcat(query,pseudo);
             strcat(query,"'");
 
@@ -53,9 +53,9 @@ int signIn(){
         system(httpRequest);
 
         do{
-           strcpy(query,"SELECT idUser,appSignIn FROM USERS WHERE email='");
-           strcat(query,pseudo);
-           strcat(query,"'");
+            strcpy(query,"SELECT idUser,appSignIn FROM USERS WHERE email='");
+            strcat(query,pseudo);
+            strcat(query,"'");
 
             mysql_query(&mysql,query);
             result = mysql_store_result(&mysql);
@@ -67,12 +67,60 @@ int signIn(){
 
         }while(check!=1);
 
-        printf("You are connected");
+        printf("\nYou are connected");
         sscanf(row[0],"%d",&id);
 
        return id;
 
+    }else{
+
+        printf("ERROR: no connexion with bdd");
     }
+
+    mysql_close(&mysql);
+
+}
+
+void menu(int id){
+
+    int choice;
+    char txtId[10];
+    char query[255];
+    MYSQL_RES *result=NULL;
+    MYSQL_ROW row;
+
+    MYSQL mysql;
+    mysql_init(&mysql);
+    mysql_options(&mysql,MYSQL_READ_DEFAULT_GROUP,"option");
+
+    do{
+
+        printf("welcom in the Quick Baluchon compagnon app.\nWhat do you want to do?\n1) leave\n");
+
+        scanf("%d",&choice);
+
+    }while(choice!=1);
+
+    if(choice==1){
+
+            if(mysql_real_connect(&mysql,"51.77.144.219","armanddfl","Sa4L5V6ve","LTA",0,NULL,0)){
+
+                strcpy(query,"UPDATE USERS SET appSignIn='0' WHERE idUser='");
+                itoa(id,txtId,10);
+                strcat(query,txtId);
+                strcat(query,"'");
+                mysql_query(&mysql,query);
+
+            }else{
+                printf("ERROR: no connexion with bdd");
+            }
+
+            mysql_close(&mysql);
+
+    }
+
+
+
 
 }
 
@@ -81,5 +129,9 @@ int main()
     int id;
 
     id=signIn();
+
+    menu(id);
+
+    //printf("leave");
     return 0;
 }

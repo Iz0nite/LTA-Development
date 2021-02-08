@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1612450371 source:c:\users\arman\desktop\projet\2a\pa\lta-development\application c\login\signin\main.c
+1612460936 source:c:\users\arman\desktop\projet\2a\pa\lta-development\application c\login\signin\main.c
 	<stdio.h>
 	<stdlib.h>
 	<MYSQL/mysql.h>
