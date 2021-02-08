@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1612797081 source:c:\users\armand.armand\desktop\projet\2a\pa\lta-development\application c\sendinfo\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<MYSQL/mysql.h>
+	<math.h>
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mysql.h
+	<stdarg.h>
+	<sys/types.h>
+	"mariadb_com.h"
+	"mariadb_version.h"
+	"ma_list.h"
+	"mariadb_ctype.h"
+	"mariadb_stmt.h"
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_com.h
+
+1605017624 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_version.h
+	<custom_conf.h>
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\ma_list.h
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_ctype.h
+	<ctype.h>
+
+1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_stmt.h
+
