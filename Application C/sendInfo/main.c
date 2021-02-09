@@ -147,11 +147,9 @@ void display(t_package *package)
 	return;
 }
 
-int main()
-{
-    int choice;
+int sendOrder(int choice,t_package *package){
+
     char txtChoice[10];
-    t_package *package;
     t_package *packageTmp;
     int check;
     char query[255];
@@ -159,12 +157,7 @@ int main()
     double price=0;
     char txtPrice[10];
     int tmpWeight;
-    char idOrder[10];
-    int count_row=0;
-    char **tabDeposit;
-    char txtWeight[10];
-    char txtVolume[10];
-    int i;
+    int idOrder;
     MYSQL_RES *result=NULL;
     MYSQL_ROW row;
 
@@ -174,19 +167,7 @@ int main()
 
     if(mysql_real_connect(&mysql,"51.77.144.219","armanddfl","Sa4L5V6ve","LTA",0,NULL,0)){
 
-        do{
-            printf("Enter your delivery type\n1) Express\n2) Standard\n");
-            scanf("%d",&choice);
-        }while(choice!=1 && choice!=2);
 
-        if(choice==2){
-            choice=0;
-        }
-
-        package = malloc(sizeof(t_package));
-        package = NULL;
-
-        package = getDataExcelFile("test.csv", package);
 
         packageTmp = package;
 
@@ -252,10 +233,41 @@ int main()
         row = mysql_fetch_row(result);
 
         if(row){
-           strcpy(idOrder,row[0]);
+           idOrder=atoi(row[0]);
         }
 
-        //printf("%s",idOrder);
+        mysql_close(&mysql);
+        return idOrder;
+    }else{
+        printf("ERROR:");
+
+    }
+
+}
+
+void sendPackages(int idOrder,t_package *package){
+
+    char txtIdOrder[10];
+    int choice;
+    int count_row=0;
+    int check;
+    char query[255];
+    char **tabDeposit;
+    char txtWeight[10];
+    char txtVolume[10];
+    int i;
+    t_package *packageTmp;
+    MYSQL_RES *result=NULL;
+    MYSQL_ROW row;
+
+    MYSQL mysql;
+    mysql_init(&mysql);
+    mysql_options(&mysql,MYSQL_READ_DEFAULT_GROUP,"option");
+
+    if(mysql_real_connect(&mysql,"51.77.144.219","armanddfl","Sa4L5V6ve","LTA",0,NULL,0)){
+
+    //printf("%s",idOrder);
+        itoa(idOrder,txtIdOrder,10);
         strcpy(query,"SELECT * FROM DEPOSITS");
         mysql_query(&mysql,query);
 
@@ -315,7 +327,7 @@ int main()
             strcat(query,"','");
             strcat(query,packageTmp->city);
             strcat(query,"','0','");
-            strcat(query,idOrder);
+            strcat(query,txtIdOrder);
             strcat(query,"','");
             strcat(query,tabDeposit[choice-1]);
             strcat(query,"')");
@@ -339,7 +351,7 @@ int main()
         strcat(query,"','");
         strcat(query,packageTmp->city);
         strcat(query,"','0','");
-        strcat(query,idOrder);
+        strcat(query,txtIdOrder);
         strcat(query,"','");
         strcat(query,tabDeposit[choice-1]);
         strcat(query,"')");
@@ -350,5 +362,33 @@ int main()
         mysql_close(&mysql);
         free(tabDeposit);
     }
+
+}
+
+int main()
+{
+    int choice;
+    t_package *package;
+    int idOrder;
+
+    do{
+        printf("Enter your delivery type\n1) Express\n2) Standard\n");
+        scanf("%d",&choice);
+    }while(choice!=1 && choice!=2);
+
+    if(choice==2){
+        choice=0;
+    }
+
+    package = malloc(sizeof(t_package));
+    package = NULL;
+
+    package = getDataExcelFile("test.csv", package);
+
+    idOrder=sendOrder(choice,package);
+
+    sendPackages(idOrder,package);
+
+
     return 0;
 }
