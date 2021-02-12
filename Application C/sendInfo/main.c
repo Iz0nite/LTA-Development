@@ -160,6 +160,7 @@ int sendOrder(int choice,t_package *package){
     int idOrder;
     MYSQL_RES *result=NULL;
     MYSQL_ROW row;
+    MYSQL_ROW rowTmp;
 
     MYSQL mysql;
     mysql_init(&mysql);
@@ -183,6 +184,7 @@ int sendOrder(int choice,t_package *package){
             check=0;
 
             while((row = mysql_fetch_row(result))){
+                rowTmp=row;
 
                 tmpWeight=atoi(row[0]);
                 //printf("%d %d\n",(packageTmp->weight)*1000,tmpWeight);
@@ -191,6 +193,14 @@ int sendOrder(int choice,t_package *package){
                     tmpPrice=atof(row[1]);
                 }
 
+            }
+
+            if(check == 0){
+                tmpPrice=atof(rowTmp[1]);
+                if(tmpPrice == -1){
+                    printf("Your package is too heavy for an express delivery\n");
+                    return -1;
+                }
             }
 
             printf("%lf ",tmpPrice);
@@ -205,6 +215,7 @@ int sendOrder(int choice,t_package *package){
         while((row = mysql_fetch_row(result))){
 
             tmpWeight=atoi(row[0]);
+
             //printf("%d %d\n",(packageTmp->weight)*1000,tmpWeight);
             if((packageTmp->weight)*1000<=tmpWeight && check!=1){
                 check=1;
@@ -212,6 +223,15 @@ int sendOrder(int choice,t_package *package){
             }
 
         }
+
+        if(check == 0){
+            tmpPrice=atof(rowTmp[1]);
+            if(tmpPrice == -1){
+                printf("Your package is too heavy for an express delivery\n");
+                return -1;
+            }
+        }
+
         price+=tmpPrice;
         printf("%lf ",tmpPrice);
         printf("%lf ",price);
@@ -240,6 +260,7 @@ int sendOrder(int choice,t_package *package){
         return idOrder;
     }else{
         printf("ERROR:");
+        return -1;
 
     }
 
@@ -371,21 +392,24 @@ int main()
     t_package *package;
     int idOrder;
 
-    do{
-        printf("Enter your delivery type\n1) Express\n2) Standard\n");
-        scanf("%d",&choice);
-    }while(choice!=1 && choice!=2);
-
-    if(choice==2){
-        choice=0;
-    }
-
     package = malloc(sizeof(t_package));
     package = NULL;
 
     package = getDataExcelFile("test.csv", package);
 
-    idOrder=sendOrder(choice,package);
+    do{
+        do{
+            printf("Enter your delivery type\n1) Express\n2) Standard\n");
+            scanf("%d",&choice);
+        }while(choice!=1 && choice!=2);
+
+        if(choice==2){
+            choice=0;
+        }
+
+        idOrder=sendOrder(choice,package);
+
+    }while(idOrder == -1);
 
     sendPackages(idOrder,package);
 

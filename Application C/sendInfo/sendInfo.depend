@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1612797081 source:c:\users\armand.armand\desktop\projet\2a\pa\lta-development\application c\sendinfo\main.c
+1613143441 source:c:\users\armand.armand\desktop\projet\2a\pa\lta-development\application c\sendinfo\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

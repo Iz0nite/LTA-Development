@@ -30,7 +30,13 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="C:/Program Files (x86)/MariaDB 10.5/include" />
 		</Compiler>
+		<Linker>
+			<Add library="C:/Program Files (x86)/MariaDB 10.5/lib/libmariadb.lib" />
+			<Add library="C:/Program Files (x86)/MariaDB 10.5/lib/mariadbclient.lib" />
+			<Add directory="C:/Program Files (x86)/MariaDB 10.5/lib" />
+		</Linker>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
