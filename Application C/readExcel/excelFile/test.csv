@@ -1,0 +1,4 @@
+Package weight;Package volume size;Type of delivery (standard or express);Address of the receiver;City of the receiver;Email of the receiver
+20;35;express;6 rue de l'eglise;Montreuil;test1@gmail.com
+35;10;standard;23 rue du Plessis;Pontault-Combault;test2@gmail.com
+10;35;express;17 avenue des Lumières;Bussy-Saint-Georges;test3@gmail.com
