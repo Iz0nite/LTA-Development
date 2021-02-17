@@ -2,35 +2,27 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="sendFileInServer" />
+		<Option title="downloadTemplate" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/sendFileInServer" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/downloadTemplate" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="C:/Program Files (x86)/MariaDB 10.5/include" />
 					<Add directory="../libraries/curl-7.73.0_3-win32-mingw/include/curl" />
-					<Add directory="../libraries/openssl-1.1.1h_3-win32-mingw/include/openssl" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="../libraries/curl-7.73.0_3-win32-mingw/lib/libcurl.dll.a" />
-					<Add library="C:/Program Files (x86)/MariaDB 10.5/lib/libmariadb.lib" />
-					<Add library="C:/Program Files (x86)/MariaDB 10.5/lib/mariadbclient.lib" />
-					<Add library="../libraries/openssl-1.1.1h_3-win32-mingw/lib/libcrypto.dll.a" />
-					<Add library="../libraries/openssl-1.1.1h_3-win32-mingw/lib/libssl.dll.a" />
-					<Add directory="C:/Program Files (x86)/MariaDB 10.5/lib" />
 					<Add directory="../libraries/curl-7.73.0_3-win32-mingw/lib" />
-					<Add directory="../libraries/openssl-1.1.1h_3-win32-mingw/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/sendFileInServer" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/downloadTemplate" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -45,17 +37,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="include/sendFileInServer.h" />
-		<Unit filename="main.c">
+		<Unit filename="downloadTemplate.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="sendFileInServer.c">
+		<Unit filename="include/downloadTemplate.h" />
+		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
 			<debugger />
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
