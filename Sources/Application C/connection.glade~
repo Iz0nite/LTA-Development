@@ -123,7 +123,6 @@
         <property name="valign">end</property>
         <property name="margin-right">10</property>
         <property name="margin-bottom">10</property>
-        <signal name="clicked" handler="logOut" swapped="no"/>
       </object>
       <packing>
         <property name="expand">False</property>

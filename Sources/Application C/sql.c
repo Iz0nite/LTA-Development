@@ -18,7 +18,7 @@ int setupMysqlConexion(MYSQL *mysql)
 
 
 
-int getId(char *email, char **error)
+int getId(char *email, char **log)
 {
 	MYSQL mysql;
 	MYSQL_RES *resultSql;
@@ -45,13 +45,17 @@ int getId(char *email, char **error)
 			}
 		}
 
-		strcpy(*error, "The email is incorrect or does not exist!");
+		strcpy(*log, "<span foreground='red'>");
+		strcat(*log, "The email is incorrect or does not exist!");
+		strcat(*log, "</span>");
 		mysql_close(&mysql);
 		return 0;
 	}
 	else
 	{
-		strcpy(*error, "Cannot connect to the database!");
+		strcpy(*log, "<span foreground='red'>");
+		strcat(*log, "Cannot connect to the database!");
+		strcat(*log, "</span>");
 		mysql_close(&mysql);
 		return 0;
 	}
@@ -59,7 +63,7 @@ int getId(char *email, char **error)
 
 
 
-char *getUserData(int id, char *key, char **error)
+char *getUserData(int id, char *key, char **log)
 {
 	MYSQL mysql;
 	MYSQL_RES *resultSql;
@@ -85,18 +89,26 @@ char *getUserData(int id, char *key, char **error)
 			rowSql = mysql_fetch_row(resultSql);
 			if(rowSql)
 			{
+				strcpy(*log, "<span foreground='#10ac84'>");
+				strcat(*log, "Please connect to the website and then resend\n the connection verification to the application.");
+				strcat(*log, "</span>");
+
 				mysql_close(&mysql);
 				return rowSql[0];
 			}
 		}
 
-		strcpy(*error, "Incorrect id user!");
+		strcpy(*log, "<span foreground='red'>");
+		strcat(*log, "Incorrect id user!");
+		strcat(*log, "</span>");
 		mysql_close(&mysql);
 		return NULL;
 	}
 	else
 	{
-		strcpy(*error, "Cannot connect to the database!");
+		strcpy(*log, "<span foreground='red'>");
+		strcat(*log, "Cannot connect to the database!");
+		strcat(*log, "</span>");
 		mysql_close(&mysql);
 		return NULL;
 	}

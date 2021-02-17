@@ -1,74 +1,124 @@
 #include "gtk.h"
 
-G_MODULE_EXPORT void connexion()
+GtkWidget *window;
+
+G_MODULE_EXPORT void logOut(GtkButton *btn_submitConnection, t_data *data)
 {
-	printf("ok\n");
+	setUserData(data->id, "appSignIn", "0");
+	data->id = 0;
+
+	gtk_container_remove(GTK_CONTAINER(window), data->windowMenu->box);
+	gtk_container_add(GTK_CONTAINER(window), data->windowConnection->box);
+
+	return;
 }
 
 
 
-G_MODULE_EXPORT void destroyWindow(GtkWidget *widget, t_widgets *widgets)
+G_MODULE_EXPORT void signIn(GtkButton *btn_submitConnection, t_data *data)
 {
-	if(widgets)
-		setUserData(widgets->id, "appSignIn", "0");
+    char httpRequest[255];
+	char *email;
+	char *log;
+	int connectionStatus;
+
+	connectionStatus = 0;
+	log = malloc(sizeof(char) * 2000);
+
+	strcpy(log, "");
+	gtk_label_set_text(GTK_LABEL(data->windowConnection->lbl_messageError), log);
+
+    email = (char *)gtk_entry_get_text(GTK_ENTRY(data->windowConnection->entry_email));
+	data->id = getId(email, &log);
+
+	if (strcmp(log, ""))
+	{
+		gtk_label_set_markup (GTK_LABEL(data->windowConnection->lbl_messageError), log);
+		strcpy(log, "");
+	}
+
+	if (data->id)
+	{
+		connectionStatus = atoi(getUserData(data->id, "appSignIn", &log));
+
+		if (strcmp(log, ""))
+		{
+			gtk_label_set_markup (GTK_LABEL(data->windowConnection->lbl_messageError), log);
+			strcpy(log, "");
+		}
+
+		if (!connectionStatus)
+		{
+			strcpy(httpRequest, "start https://lta-development.fr/en/appConnection");
+			system(httpRequest);
+		}
+		else
+		{
+			gtk_label_set_markup (GTK_LABEL(data->windowConnection->lbl_messageError), log);
+			gtk_container_remove(GTK_CONTAINER(window), data->windowConnection->box);
+			gtk_container_add(GTK_CONTAINER(window), data->windowMenu->box);
+		}
+	}
+
+	free(log);
+
+	return;
+}
+
+
+
+G_MODULE_EXPORT void destroyWindow(GtkWidget *widget, t_data *data)
+{
+	if(data)
+		setUserData(data->id, "appSignIn", "0");
     gtk_main_quit();
+
+    return;
 }
 
 
 
-G_MODULE_EXPORT void btnTest(GtkButton *btn_submitConnection, GtkEntry *entry_email)
+int gtkInit(int argc, char **argv)
 {
-	printf("%s\n", gtk_entry_get_text(entry_email));
-}
-
-
-
-int gtkInit(int argc, char **argv, GtkBuilder **builder)
-{
+	GtkBuilder *builder;
 	GError *error;
+	t_data *data;
 
 	error = NULL;
+	data = malloc(sizeof(t_data));
+	data->windowConnection = g_slice_new(t_connection);
+	data->windowMenu = g_slice_new(t_menu);
 
 	gtk_init(&argc, &argv);
 
-	*builder = gtk_builder_new();
+	builder = gtk_builder_new();
 
-	if(!gtk_builder_add_from_file(*builder, GLADE_FILENAME, &error))
+	if(!gtk_builder_add_from_file(builder, GLADE_FILENAME, &error))
 	{
 		g_printerr("%s\n", error->message);
 		g_error_free(error);
 		return 0;
 	}
 
-	return 1;
-}
+	window = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "main_window")));
+	data->id = 0;
 
+	data->windowConnection->box = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "box_connection")));
+	data->windowConnection->entry_email  = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "entry_email")));
+	data->windowConnection->lbl_messageError = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "lbl_messageError")));
 
-
-void updateWindow(GtkBuilder *builder, char *windowObjectName)
-{
-	GtkWidget *window;
-	t_widgets *widgets;
-
-	window = GTK_WIDGET(gtk_builder_get_object(builder, windowObjectName));
-	widgets = NULL;
+	data->windowMenu->box = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "box_menu")));
 
 	if(!window)
 	{
-		printf("Error: Impossible to find the object \"%s\"\n", windowObjectName);
+		printf("Error: Impossible to find the object \"%s\"\n", "main_window");
 		destroyWindow(NULL, NULL);
-		return;
+		return 0;
 	}
 
-	if (!strcmp(windowObjectName, "window_connection"))
-	{
-		widgets = g_slice_new(t_widgets);
-		widgets->entry_email  = GTK_WIDGET(gtk_builder_get_object(builder, "entry_email"));
-		widgets->lbl_messageError = GTK_WIDGET(gtk_builder_get_object(builder, "lbl_messageError"));
-		widgets->id = 0;
-	}
+	gtk_builder_connect_signals(builder, data);
 
-	gtk_builder_connect_signals(builder, widgets);
+	gtk_container_add(GTK_CONTAINER(window), data->windowConnection->box);
 
 	g_object_unref(builder);
 
@@ -76,6 +126,8 @@ void updateWindow(GtkBuilder *builder, char *windowObjectName)
 
 	gtk_main();
 
-	if (!strcmp(windowObjectName, "window_connection"))
-		g_slice_free(t_widgets, widgets);
+	g_slice_free(t_connection, data->windowConnection);
+	g_slice_free(t_menu, data->windowMenu);
+
+	return 1;
 }

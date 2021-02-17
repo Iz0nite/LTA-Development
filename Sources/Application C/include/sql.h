@@ -10,8 +10,8 @@ void setUserData(int id, char *key, char *data);
 
 int setupMysqlConexion(MYSQL *mysql);
 
-int getId(char *email, char **error);
+int getId(char *email, char **log);
 
-char *getUserData(int id, char *key, char **error);
+char *getUserData(int id, char *key, char **log);
 
 #endif
