@@ -8,10 +8,16 @@
 
 void setUserData(int id, char *key, char *data);
 
+char ***getPrice(char *typeDelivery, int *nbRow, char ***log);
+
+char ***getListDeposit(int *nbRow);
+
+char *getUserData(int id, char *key, char **log);
+
 int setupMysqlConexion(MYSQL *mysql);
 
 int getId(char *email, char **log);
 
-char *getUserData(int id, char *key, char **log);
+int addNewOrder(int idUser, char *deliveryType, double price, char ***log);
 
 #endif

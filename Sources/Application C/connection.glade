@@ -97,7 +97,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="btn_submitOrder">
+      <object class="GtkButton" id="btn_CreateOrder">
         <property name="label" translatable="yes">New Order</property>
         <property name="width-request">100</property>
         <property name="visible">True</property>
@@ -105,6 +105,7 @@
         <property name="receives-default">True</property>
         <property name="halign">center</property>
         <property name="margin-top">26</property>
+        <signal name="clicked" handler="uploadFile" swapped="no"/>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -129,6 +130,116 @@
         <property name="expand">False</property>
         <property name="fill">True</property>
         <property name="position">2</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkBox" id="box_uploadFile">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkLabel" id="lbl_uploadFile">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">center</property>
+        <property name="margin-top">129</property>
+        <property name="label" translatable="yes">Choose a file</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkFileChooserButton" id="btnFile_uploadFile">
+        <property name="width-request">200</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">center</property>
+        <property name="margin-top">20</property>
+        <property name="title" translatable="yes"/>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl_UploaFileMessageError">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-top">15</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBoxText" id="selector_deposit">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="active">0</property>
+        <items>
+          <item translatable="yes">a</item>
+          <item translatable="yes">b</item>
+          <item translatable="yes">c</item>
+        </items>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="box_submitContainer">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">center</property>
+        <child>
+          <object class="GtkButton" id="btn_submitOrderStandard">
+            <property name="label" translatable="yes">Standard</property>
+            <property name="width-request">150</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="halign">center</property>
+            <property name="margin-right">20</property>
+            <property name="margin-top">20</property>
+            <signal name="clicked" handler="createOrder" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btn_submitOrderExpress">
+            <property name="label" translatable="yes">Express</property>
+            <property name="width-request">150</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="halign">center</property>
+            <property name="margin-left">20</property>
+            <property name="margin-top">20</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">4</property>
       </packing>
     </child>
   </object>
