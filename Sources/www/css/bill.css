@@ -1,0 +1,139 @@
+@font-face
+{
+    font-family: "Montserrat";
+    src: url("./../font/montserrat/montserrat-v15-latin-regular.woff") format("woff");
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body *
+{
+    font-family: "Montserrat", sans-serif;
+}
+
+/***** NO TRANSITION IN RELOAD PAGE *****/
+.preload * {
+    transition: none !important;
+}
+
+/* Bill */
+
+.bill{
+    display: flex;
+    flex-direction: column;
+    border: solid 0.1em;
+    margin: 2% 20%;
+    padding: 1.5%;
+}
+
+.headerBill>div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerBill>div>img{
+    width: 7em;
+}
+
+.srcdstBill{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-bottom: 4em;
+}
+
+.corpsBill{
+    margin-bottom: 15px;
+}
+
+.corpsBill>table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+}
+
+.corpsBill thead{
+    height: auto;
+    background-color: #757575;
+    color: white;
+}
+
+.corpsBill tr{
+    border-bottom: solid 0.1em black;
+}
+
+.corpsBill tbody>tr{
+    text-align: center;
+}
+
+.corpsBill thead>tr>th{
+    padding: 8px 0;
+}
+
+.corpsBill tbody>tr>td{
+    padding: 8px 0;
+}
+
+.priceBill{
+    display: flex;
+    /* flex-direction: column; */
+    align-items: flex-end;
+    width: 25%;
+    justify-content: space-around;
+    margin: 0 10% 5em 65%;
+}
+
+.leftSidePrice{
+    font-weight: bold;
+}
+
+.priceBill>p{
+    margin: 0.15em;
+}
+
+.footerBill{
+    margin-bottom: 5%;
+}
+
+.QRCode{
+    margin-bottom: 40%;
+}
+
+.paymentButton{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2%;
+    padding: 0 20%;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    background-color: #9ba3b3;
+    border: solid 0.1em #9ba3b3;
+    width: 10em;
+    padding: 0.2em;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    outline: none;
+}
+
+.button:hover{
+    color: white;
+    border: solid 0.1em black;
+    transition: .3s ease;
+}

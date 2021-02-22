@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Application C" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Application C" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="include/gtk3" />
+				</Compiler>
+				<Linker>
+					<Add library="lib/libcrypto.dll.a" />
+					<Add library="lib/libcurl.dll.a" />
+					<Add library="lib/libmariadb.lib" />
+					<Add library="lib/libssl.dll.a" />
+					<Add library="lib/mariadbclient.lib" />
+					<Add library="lib/gtk3/atk-1.0.lib" />
+					<Add library="lib/gtk3/cairo.lib" />
+					<Add library="lib/gtk3/fontconfig.lib" />
+					<Add library="lib/gtk3/gailutil.lib" />
+					<Add library="lib/gtk3/gdk_pixbuf-2.0.lib" />
+					<Add library="lib/gtk3/gdk-win32-3.0.lib" />
+					<Add library="lib/gtk3/gio-2.0.lib" />
+					<Add library="lib/gtk3/glib-2.0.lib" />
+					<Add library="lib/gtk3/gmodule-2.0.lib" />
+					<Add library="lib/gtk3/gobject-2.0.lib" />
+					<Add library="lib/gtk3/gthread-2.0.lib" />
+					<Add library="lib/gtk3/gtk-win32-3.0.lib" />
+					<Add library="lib/gtk3/libatk-1.0.dll.a" />
+					<Add library="lib/gtk3/libcairo.dll.a" />
+					<Add library="lib/gtk3/libcairo-gobject.dll.a" />
+					<Add library="lib/gtk3/libcairo-script-interpreter.dll.a" />
+					<Add library="lib/gtk3/libcroco-0.6.dll.a" />
+					<Add library="lib/gtk3/libffi.dll.a" />
+					<Add library="lib/gtk3/libfontconfig.dll.a" />
+					<Add library="lib/gtk3/libfreetype.dll.a" />
+					<Add library="lib/gtk3/libgailutil-3.dll.a" />
+					<Add library="lib/gtk3/libgdk_pixbuf-2.0.dll.a" />
+					<Add library="lib/gtk3/libgdk-3.dll.a" />
+					<Add library="lib/gtk3/libgio-2.0.dll.a" />
+					<Add library="lib/gtk3/libglib-2.0.dll.a" />
+					<Add library="lib/gtk3/libgmodule-2.0.dll.a" />
+					<Add library="lib/gtk3/libgobject-2.0.dll.a" />
+					<Add library="lib/gtk3/libgthread-2.0.dll.a" />
+					<Add library="lib/gtk3/libgtk-3.dll.a" />
+					<Add library="lib/gtk3/libjasper.dll.a" />
+					<Add library="lib/gtk3/libjpeg.dll.a" />
+					<Add library="lib/gtk3/liblzma.dll.a" />
+					<Add library="lib/gtk3/libpango-1.0.dll.a" />
+					<Add library="lib/gtk3/libpangocairo-1.0.dll.a" />
+					<Add library="lib/gtk3/libpangoft2-1.0.dll.a" />
+					<Add library="lib/gtk3/libpangowin32-1.0.dll.a" />
+					<Add library="lib/gtk3/libpixman-1.dll.a" />
+					<Add library="lib/gtk3/libpng.dll.a" />
+					<Add library="lib/gtk3/libpng15.dll.a" />
+					<Add library="lib/gtk3/librsvg-2.dll.a" />
+					<Add library="lib/gtk3/libtiff.dll.a" />
+					<Add library="lib/gtk3/libtiffxx.dll.a" />
+					<Add library="lib/gtk3/libxml2.dll.a" />
+					<Add library="lib/gtk3/libz.dll.a" />
+					<Add library="lib/gtk3/pango-1.0.lib" />
+					<Add library="lib/gtk3/pangocairo-1.0.lib" />
+					<Add library="lib/gtk3/pangoft2-1.0.lib" />
+					<Add library="lib/gtk3/pangowin32-1.0.lib" />
+					<Add directory="lib" />
+					<Add directory="lib/gtk3" />
+					<Add directory="C:/Program Files (x86)/GTK3/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Application C" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="include" />
+		</Compiler>
+		<Linker>
+			<Add library="lib/libcrypto.dll.a" />
+			<Add library="lib/libcurl.dll.a" />
+			<Add library="lib/libmariadb.lib" />
+			<Add library="lib/libssl.dll.a" />
+			<Add library="lib/mariadbclient.lib" />
+			<Add directory="lib" />
+		</Linker>
+		<Unit filename="gtk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/gtk.h" />
+		<Unit filename="include/orderProcess.h" />
+		<Unit filename="include/sql.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="orderProcess.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sql.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

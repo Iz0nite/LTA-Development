@@ -1,4 +1,5 @@
 <?php
+    $title = "LTA-development - Profile";
     if(!isset($_SESSION))
         session_start();
 
@@ -16,13 +17,8 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
-        <meta charset="utf-8">
-        <title>LTA-development</title>
-        <link rel="icon" href="./../img/LTADevelopmentLogo.ico" />
+        <?php include("./php/head.php"); ?>
         <link rel="stylesheet" type="text/css" href="./../css/profile.css">
-        <link rel="stylesheet" type="text/css" href="./../css/header.css">
-        <link rel="stylesheet" type="text/css" href="./../css/footer.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     </head>
 
     <body class="preload">
@@ -31,7 +27,7 @@
 		</script>
 
         <?php
-            include("./../php/header.php");
+            include("./php/header.php");
 
             if ($_SESSION['status'] == 0)
             {
@@ -106,7 +102,7 @@
 
                 </div>
         <?php
-            include("./../php/footer.php");
+            include("./php/footer.php");
         ?>
     </body>
 </html>

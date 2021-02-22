@@ -1,4 +1,6 @@
 <?php
+    $title = "LTA-development";
+
     if(!isset($_SESSION))
         session_start();
 
@@ -14,13 +16,8 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
-        <meta charset="utf-8">
-        <title>LTA-development</title>
-        <link rel="icon" href="./../img/LTADevelopmentLogo.ico" />
-        <link rel="stylesheet" type="text/css" href="./../css/home.css">
-        <link rel="stylesheet" type="text/css" href="./../css/header.css">
-        <link rel="stylesheet" type="text/css" href="./../css/footer.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+        <?php include("./php/head.php"); ?>
+        <link rel="stylesheet" type="text/css" href="./../../css/customerHistory.css">
     </head>
 
     <body class="preload">
@@ -28,10 +25,11 @@
 			$("body").removeClass("preload");
 		</script>
 
-        <?php include("./../php/header.php"); ?>
+        <?php include("./php/header.php"); ?>
         <main>
-            <?php include("./../php/customerHistory.php"); ?>
+            <?php include("./php/customerHistory.php"); ?>
         </main>
-        <?php include("./../php/footer.php"); ?>
+        <?php include("./php/footer.php"); ?>
+        <script src="../js/customerHistory.js"></script>
     </body>
 </html>

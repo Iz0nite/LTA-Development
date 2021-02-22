@@ -29,6 +29,23 @@ header .logout{
     cursor: pointer;
 }
 
+header .logout{
+    color: white;
+    font-size: 1em;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 10px;
+    border: solid 1px white;
+    padding: 0.5em;
+}
+
+header .headerLinks{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 40%;
+}
+
 header a:hover,
 header .logout:hover{
     color: #718093;
@@ -47,8 +64,35 @@ header .logout:hover{
     width: auto;
 }
 
-/* nav{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    background-color: #9ba3b3;
+    border: solid 0.1em #9ba3b3;
+    width: 15em;
+    padding: 0.2em;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    outline: none;
+}
+
+.button:hover{
+    color: white;
+    border: solid 0.1em black;
+    transition: .3s ease;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}

@@ -28,10 +28,35 @@
         else if ($_POST['formType'] == "appConnection") {
             appConnection();
         }
+        else if ($_POST['formType'] == "deleteUser") {
+            deleteUser();
+        }
+        else if ($_POST['formType'] == "deleteOrder") {
+            deleteOrder();
+        }
+        else if ($_POST['formType'] == "deletePackage") {
+            deletePackage();
+        }
 
     }
 
-
+    if(isset($_GET['formType'])){
+        if ($_GET['formType'] == 'showPackage') {
+            showPackage();
+        }else if($_GET['formType'] == 'usersList'){
+            usersList();
+        }else if($_GET['formType'] == 'showUserDetails'){
+            showUserDetails();
+        }else if($_GET['formType'] == 'ordersList') {
+            ordersList();
+        }else if ($_GET['formType'] == 'showOrderDetails') {
+            showOrderDetails();
+        }else if ($_GET['formType'] == 'packagesList') {
+            packagesList();
+        }else if ($_GET['formType'] == 'showPackageDetails') {
+            showPackageDetails();
+        }
+    }
 
     /* Setup SQL connexion */
     function setupCredentials()
@@ -187,6 +212,12 @@
         {
             $_SESSION['idUser'] = $res[0]['idUser'];
             $_SESSION['status'] = $res[0]['status'];
+
+            if ($_SESSION['status'] == 2) {
+                header('location: ./../en/dashBoard.php');
+                exit();
+            }
+
             header('location: ./../en/home');
             exit();
         }
@@ -317,4 +348,370 @@
             exit();
         }
     }
+
+    function showPackage(){
+        $req = setupCredentials()->prepare("SELECT idPackage,weight,volumeSize,emailDest,Status FROM PACKAGES WHERE idOrder=?");
+        $req->execute([
+            $_GET['idOrder']
+        ]);
+
+        $res=$req->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($res as $key => $value) {
+            echo "<ul>
+                    <label>Package: ".$value['idPackage']."</label>
+                    <li>Weight: ".$value['weight']."</li>
+                    <li>Volume Size: ".$value['volumeSize']." m3</li>
+                    <li>Addresse: ".$value['emailDest']."</li>
+                    <li>Status: ";
+                    if ($value['Status']==0){
+                         echo "in deposit";
+                    } elseif ($value['Status']==1) {
+                         echo "in delivery";
+                    }elseif ($value['Status']=2) {
+                         echo "delivered";
+                    }
+                    echo "</li>
+                    </ul>";
+                }
+                ?>
+                <div id="orderButtonClose<?=$_GET['idOrder']?>" class="buttonPackages" onclick="showPackage(<?=$_GET['idOrder']?>)">
+                    <a>Hide content</a>
+                    <svg width="18" height="2" viewBox="0 0 18 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 1H17H1" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <?php
+            }
+
+    function billInformation($idOrder){
+        $requestPackages = setupCredentials()->prepare("SELECT * FROM PACKAGES WHERE idOrder = :idOrder");
+        $requestPackages->bindParam(':idOrder', $idOrder, PDO::PARAM_INT);
+        $requestPackages->execute();
+        $packages = $requestPackages->fetchAll(PDO::FETCH_ASSOC);
+
+        $requestOrder = setupCredentials()->prepare("SELECT deliveryStatus, deliveryType, idUser, creationDate, paymentType, total FROM `ORDER` WHERE idOrder = :idOrder");
+        $requestOrder->bindParam(':idOrder', $idOrder, PDO::PARAM_INT);
+        $requestOrder->execute();
+        $order = $requestOrder->fetch();
+
+        $requestUser = setupCredentials()->prepare("SELECT email, telNumber, companyName, address FROM USERS WHERE idUser = :idUser");
+        $requestUser->bindParam(':idUser', $order['idUser'], PDO::PARAM_INT);
+        $requestUser->execute();
+        $user = $requestUser->fetch();
+
+        $tab = [$packages, $order, $user];
+        return $tab;
+    }
+
+    function usersList(){
+
+        $query = "SELECT idUser,email,status from USERS";
+
+        if (isset($_GET['userSelect'])) {
+            $query .= " WHERE status=".$_GET['userSelect'];
+        }
+
+        if (isset($_GET['searchUser'])) {
+            if (isset($_GET['userSelect'])) {
+                $query .= ' AND email LIKE "'.$_GET['searchUser'].'%"';
+            }else {
+                $query .= ' WHERE email LIKE "'.$_GET['searchUser'].'%"';
+            }
+        }
+
+        $req = setupCredentials()->prepare($query);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($res as $key => $value) {
+            echo "<div class='user'>
+                    <div class='mailAndType'>
+                        <label>".$value['email']."</label>
+                        <label>";
+                        if ($value['status'] == 0) {
+                            echo "Customers";
+                        }elseif ($value['status'] == 1) {
+                            echo "string";
+                        }elseif ($value['status'] == 2) {
+                            echo "admin";
+                        }
+                echo    "</label>";
+                        ?>
+                        <div  class="userButtonDetails" onclick="showUserDetails(<?=$value['idUser']?>)">
+                            <a>Show details</a>
+                            <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.5 1V9M9.5 17V9M9.5 9H17.5H1.5" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <?php
+                echo    "</div>
+                      <div id='moreInfoUser".$value['idUser']."' class='moreInfoUser'></div>
+                    </div>";
+        }
+    }
+
+    function showUserDetails(){
+
+        $req = setupCredentials()->prepare("SELECT status FROM USERS WHERE idUser = :idUser");
+        $req->bindParam(':idUser', $_GET['idUser'], PDO::PARAM_INT);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($res[0]['status'] == 0) {
+            $req = setupCredentials()->prepare("SELECT companyName,address,telNumber,ORDER.idOrder,ORDER.deliveryStatus,(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder) FROM USERS INNER JOIN `ORDER` ON `ORDER`.idUser=USERS.idUser WHERE USERS.idUser= :idUser");
+            $req->bindParam(':idUser', $_GET['idUser'], PDO::PARAM_INT);
+            $req->execute();
+            $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+            echo "<ul>
+                    <li>Company Name: ".$res[0]['companyName']."</li>
+                    <li>Address: ".$res[0]['address']."</li>
+                    <li>Number: ".$res[0]['telNumber']."</li>
+                </ul>";
+
+            echo "<label>Order of this company:</label>";
+            foreach ($res as $key => $value) {
+                echo "<div class = 'orderUser'>";
+                echo "<label>id: ".$value['idOrder']."</label>";
+                echo "<label>Number Packages: ".$value['(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder)']."</label>";
+                echo "<label status=".$value['deliveryStatus'].">";
+                if ($value['deliveryStatus'] == 0) {
+                    echo "Waiting for payment";
+                }else if($value['deliveryStatus'] == 1) {
+                    echo "In preparation";
+                }else if($value['deliveryStatus'] == 2) {
+                    echo "Finish";
+                }
+                echo "</label>";
+                echo "</div>";
+            }
+            echo "<button type='button' name='deleteUser' onclick='deleteUser(".$_GET['idUser'].")'>Delete User</button>";
+        }elseif ($res[0]['status'] == 1) {
+            $req = setupCredentials()->prepare("SELECT firstName,name,telNumber,address FROM USERS WHERE idUser = :idUser");
+            $req->bindParam(':idUser', $_GET['idUser'], PDO::PARAM_INT);
+            $req->execute();
+            $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+            echo "<ul>
+                    <li>Company Name: ".$res[0]['firstName']."</li>
+                    <li>Address: ".$res[0]['name']."</li>
+                    <li>Number: ".$res[0]['telNumber']."</li>
+                    <li>Number: ".$res[0]['address']."</li>
+                </ul>";
+            echo "<button type='button' name='deleteUser' onclick='deleteUser(".$_GET['idUser'].")'>Delete User</button>";
+        }
+    }
+
+    function deleteUser(){
+
+        echo "check";
+        $req = setupCredentials()->prepare("SELECT idOrder FROM `ORDER` WHERE idUser = :idUser");
+        $req->bindParam(':idUser', $_POST['idUser'], PDO::PARAM_INT);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($res as $key => $value) {
+            $req = setupCredentials()->prepare("DELETE FROM PACKAGES WHERE idOrder = :idOrder");
+            $req->bindParam(':idOrder',$value['idOrder'], PDO::PARAM_INT);
+            $req->execute();
+        }
+
+        $req = setupCredentials()->prepare("DELETE FROM PACKAGES WHERE idUser = :idUser");
+        $req->bindParam(':idUser', $_POST['idUser'], PDO::PARAM_INT);
+        $req->execute();
+
+        $req = setupCredentials()->prepare("DELETE FROM `ORDER` WHERE idUser = :idUser");
+        $req->bindParam(':idUser', $_POST['idUser'], PDO::PARAM_INT);
+        $req->execute();
+
+        $req = setupCredentials()->prepare("DELETE FROM VEHICLE WHERE idUser = :idUser");
+        $req->bindParam(':idUser', $_POST['idUser'], PDO::PARAM_INT);
+        $req->execute();
+
+        $req = setupCredentials()->prepare("DELETE FROM USERS WHERE idUser = :idUser");
+        $req->bindParam(':idUser', $_POST['idUser'], PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    function ordersList(){
+        $query = "SELECT idOrder,deliveryStatus,USERS.email,(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder) FROM `ORDER` INNER JOIN USERS on `ORDER`.idUser = USERS.idUser";
+
+        if (isset($_GET['orderSelect'])) {
+            $query .= " WHERE deliveryStatus=".$_GET['orderSelect'];
+        }
+
+        if (isset($_GET['searchOrder'])) {
+            if (isset($_GET['orderSelect'])) {
+                $query .= ' AND idOrder LIKE "'.$_GET['searchOrder'].'%"';
+            }else {
+                $query .= ' WHERE idOrder LIKE "'.$_GET['searchOrder'].'%"';
+            }
+        }
+
+        $req = setupCredentials()->prepare($query);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($res as $key => $value) {
+            echo "<div class='order'>
+                    <div class='basicOrderInfo'>
+                        <label>".$value['idOrder']."</label>
+                        <label>";
+                        if ($value['deliveryStatus'] == 0) {
+                            echo "Waiting for Payment";
+                        }elseif ($value['deliveryStatus'] == 1) {
+                            echo "In preparation";
+                        }elseif ($value['deliveryStatus'] == 2) {
+                            echo "Finish";
+                        }
+                echo    "</label>";
+                echo    "<label>".$value['email']."</label>
+                         <label>Packages: ".$value['(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder)']."</label>";
+                        ?>
+                        <div  class="orderButtonDetails" onclick="showOrderDetails(<?=$value['idOrder']?>)">
+                            <a>Show details</a>
+                            <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.5 1V9M9.5 17V9M9.5 9H17.5H1.5" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <?php
+                echo    "</div>
+                      <div id='moreInfoOrder".$value['idOrder']."' class='moreInfoOrder'></div>
+                    </div>";
+        }
+    }
+
+    function showOrderDetails(){
+
+        $req = setupCredentials()->prepare("SELECT deliveryType,total,creationDate,PACKAGES.idPackage FROM `ORDER` INNER JOIN PACKAGES on `ORDER`.idOrder = PACKAGES.idOrder WHERE `ORDER`.idOrder = :idOrder");
+        $req->bindParam(':idOrder', $_GET['idOrder'], PDO::PARAM_INT);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        $input = $value['creationDate'];
+        $date = strtotime($input);
+
+        echo "<ul>
+                <li>Creation date: ".date('d/m/Y', $date)."</li>
+                <li>Delivery type: ";
+                if ($res[0]['deliveryType'] == 0) {
+                    echo "Standard";
+                }else if($res[0]['deliveryType'] == 1){
+                    echo "Express";
+                }
+                echo "</li>
+                <li>Total: ".$res[0]['total']."</li>
+            </ul>";
+
+        echo "<label>Package of this Order: ";
+        foreach ($res as $key => $value) {
+            echo $value['idPackage']." ";
+        }
+
+        echo "</label>";
+        echo "<button type='button' name='deleteOrder' onclick='deleteOrder(".$_GET['idOrder'].")'>Delete Order</button>";
+    }
+
+    function deleteOrder(){
+
+        $req = setupCredentials()->prepare("DELETE FROM PACKAGES WHERE idOrder = :idOrder");
+        $req->bindParam(':idOrder',$_POST['idOrder'], PDO::PARAM_INT);
+        $req->execute();
+
+        $req = setupCredentials()->prepare("DELETE FROM `ORDER` WHERE idOrder = :idOrder");
+        $req->bindParam(':idOrder',$_POST['idOrder'], PDO::PARAM_INT);
+        $req->execute();
+
+    }
+
+    function packagesList(){
+        $query = "SELECT idPackage,PACKAGES.status,USERS.companyName,PACKAGES.idOrder FROM PACKAGES INNER JOIN `ORDER` on `ORDER`.idOrder = PACKAGES.idOrder INNER JOIN USERS on `ORDER`.idUser = USERS.idUser";
+
+        if (isset($_GET['packageSelect'])) {
+            $query .= " WHERE PACKAGES.status=".$_GET['packageSelect'];
+        }
+
+        if (isset($_GET['searchPackage'])) {
+            if (isset($_GET['packageSelect'])) {
+                $query .= ' AND idPackage LIKE "'.$_GET['searchPackage'].'%"';
+            }else {
+                $query .= ' WHERE idPackage LIKE "'.$_GET['searchPackage'].'%"';
+            }
+        }
+
+        $req = setupCredentials()->prepare($query);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($res as $key => $value) {
+            echo "<div class='package'>
+                    <div class='basicPackageInfo'>
+                        <label>".$value['idPackage']."</label>
+                        <label>".$value['companyName']."</label>
+                        <label>".$value['idOrder']."</label>
+                        <label>status: ";
+
+                        if ($value['status'] == 0) {
+                            echo "In deposit";
+                        }elseif ($value['status'] == 1) {
+                            echo "In delivery";
+                        }elseif ($value['status'] == 2) {
+                            echo "Delivered";
+                        }
+
+                        echo "</label>";
+                        ?>
+                        <div  class="packageButtonDetails" onclick="showPackageDetails(<?=$value['idPackage']?>)">
+                            <a>Show details</a>
+                            <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.5 1V9M9.5 17V9M9.5 9H17.5H1.5" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <?php
+                echo    "</div>
+                      <div id='moreInfoPackage".$value['idPackage']."' class='moreInfoPackage'></div>
+                    </div>";
+        }
+
+    }
+
+    function showPackageDetails(){
+
+        echo $_GET['idPackage'];
+
+        $req = setupCredentials()->prepare("SELECT weight,volumeSize,emailDest,address,city FROM PACKAGES WHERE idPackage=:idPackage");
+        $req->bindParam(':idPackage', $_GET['idPackage'], PDO::PARAM_INT);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        $req = setupCredentials()->prepare("SELECT DEPOSITS.address,DEPOSITS.city FROM PACKAGES INNER JOIN DEPOSITS ON PACKAGES.idDeposit = DEPOSITS.idDeposit WHERE idPackage=:idPackage");
+        $req->bindParam(':idPackage', $_GET['idPackage'], PDO::PARAM_INT);
+        $req->execute();
+        $res2 = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        echo "<ul>
+                <li>Weight: ".$res[0]['weight']." kg</li>
+                <li>Volume Size: ".$res[0]['volumeSize']."</li>
+                <li>Receiver mail: ".$res[0]['emailDest']."</li>
+                <li>Receiver address: ".$res[0]['address']."</li>
+                <li>Receiver city: ".$res[0]['city']."</li>
+                <li>Deposit address: ".$res2[0]['address']."</li>
+                <li>Deposit city: ".$res2[0]['city']."</li>
+            </ul>";
+
+
+        echo "<button type='button' name='deletePackage' onclick='deletePackage(".$_GET['idPackage'].")'>Delete Package</button>";
+
+    }
+
+    function deletePackage(){
+
+        $req = setupCredentials()->prepare("DELETE FROM PACKAGES WHERE idPackage = :idPackage");
+        $req->bindParam(':idPackage',$_POST['idPackage'], PDO::PARAM_INT);
+        $req->execute();
+
+    }
+
+
 ?>

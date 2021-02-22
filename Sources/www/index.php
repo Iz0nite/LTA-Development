@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>LTA-Development</title>
-        <link rel="icon" type="image/png" href="./img/icon/#">
+        <link rel="icon" type="image/png" href="./img/logoQuickBaluchon.ico">
     </head>
     <body>
         <style media="screen">
