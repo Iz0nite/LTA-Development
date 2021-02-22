@@ -89,7 +89,7 @@ char *getUserData(int id, char *key, char **log)
 			rowSql = mysql_fetch_row(resultSql);
 			if(rowSql)
 			{
-				strcpy(*log, "<span foreground='#10ac84'>");
+				strcpy(*log, "<span foreground='#e67e22'>");
 				strcat(*log, "Please connect to the website and then resend\n the connection verification to the application.");
 				strcat(*log, "</span>");
 
@@ -226,7 +226,6 @@ int addNewOrder(int idUser, char *deliveryType, double price, char ***log)
 	
 	if(setupMysqlConexion(&mysql))
 	{
-		printf("connection ok\n");
 		strcpy(query, "INSERT INTO `ORDER`(deliveryStatus, paymentType, deliveryType, total, idUser) VALUES('0', '0', '");
 		strcat(query, deliveryType);
 		strcat(query, "', '");
@@ -292,19 +291,64 @@ char ***getListDeposit(int *nbRow)
 				strcat(listDeposit[i][1], rowSql[2]);
 			}
 
+            printf("%s\n", mysql_error(&mysql));
+
 			mysql_close(&mysql);
 			return listDeposit;
 		}
 
+        printf("%s\n", mysql_error(&mysql));
 		printf("An error has been occurred!\n");
 		mysql_close(&mysql);
 		return NULL;
 	}
 	else
 	{
+        printf("%s\n", mysql_error(&mysql));
 		printf("Cannot connect to the database!\n");
 		mysql_close(&mysql);
 		return NULL;
 	}
+}
 
+
+
+int addPackage(char *weight, char *volumeSize, char *emailDest, char *address, char *city, char *idOrder, char *idDeposit, char ***log)
+{
+    MYSQL mysql;
+    char query[512];
+
+    if(setupMysqlConexion(&mysql))
+    {
+        strcpy(query,"INSERT INTO PACKAGES (weight, volumeSize, emailDest, address, city, status, idOrder, idDeposit) VALUES ('");
+        strcat(query, weight);
+        strcat(query,"', '");
+        strcat(query, volumeSize);
+        strcat(query,"', '");
+        strcat(query, emailDest);
+        strcat(query,"', '");
+        strcat(query, address);
+        strcat(query,"', '");
+        strcat(query, city);
+        strcat(query,"', '0', '");
+        strcat(query, idOrder);
+        strcat(query,"', '");
+        strcat(query, idDeposit);
+        strcat(query,"')");
+
+        mysql_query(&mysql, query);
+
+        mysql_close(&mysql);
+
+        return 1;
+    }
+    else
+    {
+        strcpy(**log, "<span foreground='red'>");
+        strcat(**log, "Cannot connect to the database!");
+        strcat(**log, "</span>");
+        mysql_close(&mysql);
+
+        return 0;
+    }
 }

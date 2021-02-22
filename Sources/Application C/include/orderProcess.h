@@ -21,6 +21,6 @@ t_package *getDataExcelFile(char *filename, t_package *package);
 
 t_package *addChain(t_package *package, char **data);
 
-int sendOrder(int idUser, char *deliveryType, t_package *package, char **log);
+int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposit, char **log);
 
 #endif

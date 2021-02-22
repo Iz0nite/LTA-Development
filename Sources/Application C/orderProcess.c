@@ -69,7 +69,6 @@ t_package *getDataExcelFile(char *filename, t_package *package)
             if(buffer == ';' || buffer == '\n')
             {
                 data[dataPosition % 5][buildDataPosition] = '\0';
-                printf("buildDataPosition: %d => \\0\n", buildDataPosition);
                 buildDataPosition = 0;
                 dataPosition++;
             }
@@ -116,12 +115,15 @@ t_package *getDataExcelFile(char *filename, t_package *package)
 
 
 
-int sendOrder(int idUser, char *deliveryType, t_package *package, char **log)
+int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposit, char **log)
 {
 	t_package *packageTmp;
 	char ***tabPrice;
 	double tmpPrice;
 	double price;
+	char txtWeight[10];
+	char txtVolumeSize[10];
+	char txtIdOrder[10];
 	int tabPriceNbRowElement;
 	int check;
 	int tmpWeight;
@@ -132,12 +134,9 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char **log)
 	packageTmp = package;
 	tabPrice = getPrice(deliveryType, &tabPriceNbRowElement, &log);
 
-	for(int i = 0; i < tabPriceNbRowElement; i++)
-		printf("%s g - %s euros\n", tabPrice[i][0], tabPrice[i][1]);
-
 	if(tabPrice)
 	{
-		while(packageTmp->next != NULL)
+		while(packageTmp != NULL)
 		{
 			check = 0;
 
@@ -150,7 +149,6 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char **log)
 					check = 1;
 					tmpPrice = atof(tabPrice[i][1]);
 				}
-
 			}
 
 			if(!check)
@@ -166,50 +164,26 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char **log)
 				}
 			}
 
-			printf("%.2lf\n", tmpPrice);
 			price += tmpPrice;
 			packageTmp = packageTmp->next;
 		}
-
-		check = 0;
-
-		for(int i = 0; i < tabPriceNbRowElement; i++)
-		{
-			tmpRow = i;
-			tmpWeight = atoi(tabPrice[i][0]);
-
-			if(packageTmp->weight * 1000 <= tmpWeight && check != 1)
-			{
-				check = 1;
-				tmpPrice = atof(tabPrice[i][1]);
-			}
-		}
-
-		if(!check){
-			tmpPrice = atof(tabPrice[tmpRow][1]);
-			
-			if(tmpPrice == -1)
-			{
-				strcpy(*log, "<span foreground='red'>");
-				strcat(*log, "Your package is too heavy for an express delivery!");
-				strcat(*log, "</span>");
-				return 0;
-			}
-		}
-
-		printf("%.2lf\n", tmpPrice);
-		price += tmpPrice;
-
-		printf("total: %lf\n", price);
 
 		idOrder = addNewOrder(idUser, deliveryType, price, &log);
 
 		if(!idOrder)
 			return 0;
 
-		printf("idOrder: %d\n", idOrder);
+        packageTmp = package;
+        while(packageTmp != NULL)
+        {
+            itoa(packageTmp->weight * 1000, txtWeight, 10);
+            itoa(packageTmp->volume, txtVolumeSize, 10);
+            itoa(idOrder, txtIdOrder, 10);
+            addPackage(txtWeight, txtVolumeSize, packageTmp->emailDest, packageTmp->address, packageTmp->city, txtIdOrder, idDeposit, &log);
+            packageTmp = packageTmp->next;
+        }
 
-		return 1;
+        return idOrder;
 	}
 
 	return 0;

@@ -23,6 +23,7 @@ typedef struct s_connection
 typedef struct s_menu
 {
 	GtkWidget *box;
+    GtkWidget *lbl_messageError;
 } t_menu;
 
 typedef struct s_uploadFile
@@ -43,6 +44,8 @@ typedef struct s_data
 
 
 
+void orderProcess(t_data *data, char *deliveryType);
+
 int gtkInit(int argc, char **argv);
 
 G_MODULE_EXPORT void destroyWindow(GtkWidget *widget, t_data *data);
@@ -52,5 +55,11 @@ G_MODULE_EXPORT void logOut(GtkButton *btn_submit, t_data *data);
 G_MODULE_EXPORT void signIn(GtkButton *btn_submit, t_data *data);
 
 G_MODULE_EXPORT void uploadFile(GtkButton *btn_submit, t_data *data);
+
+G_MODULE_EXPORT void uploadFileToMenu(GtkButton *btn_submit, t_data *data);
+
+G_MODULE_EXPORT void createStandardOrder(GtkButton *btn_submit, t_data *data);
+
+G_MODULE_EXPORT void createExpressOrder(GtkButton *btn_submit, t_data *data);
 
 #endif
