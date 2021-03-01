@@ -91,6 +91,43 @@ G_MODULE_EXPORT void uploadFile(GtkButton *btn_submit, t_data *data)
 
 
 
+G_MODULE_EXPORT void downloadFile(GtkButton *btn_submit, t_data *data)
+{
+    char *log;
+    char *downloadPath;
+
+    log = malloc(sizeof(char) * 2000);
+
+    downloadPath = (char *)gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(data->windowMenu->selectorDownloadFolder));
+
+    if(!downloadPath)
+    {
+        strcpy(log, "<span foreground='red'>");
+        strcat(log, "You have not selected a folder where to save the file!");
+        strcat(log, "</span>");
+        gtk_label_set_markup (GTK_LABEL(data->windowMenu->lbl_messageError), log);
+        strcat(log, "");
+    }
+    else
+    {
+        printf("chk\n");
+        downloadTemplate(downloadPath);
+
+        strcpy(log, "<span foreground='#10ac84'>");
+        strcat(log, "Download success!");
+        strcat(log, "</span>");
+
+        gtk_label_set_markup (GTK_LABEL(data->windowMenu->lbl_messageError), log);
+        strcat(log, "");
+    }
+
+    free(log);
+
+	return;
+}
+
+
+
 /*------------------------------------------------------------------------*/
 void display(t_package *package)
 {
@@ -142,15 +179,12 @@ G_MODULE_EXPORT void createStandardOrder(GtkButton *btn_submit, t_data *data)
 
 void orderProcess(t_data *data, char *deliveryType)
 {
-    struct tm *timeinfo;
     t_package *package;
-    time_t currentTime;
-    char txtIdOrder[10];
-    char yearTime[5];
-    char monthTime[3];
-	char *pathFile;
-	char *log;
-	int idOrder;
+    char idDeposit[5];
+    char *pathFile;
+    char *log;
+    char *idBill;
+    int idOrder;
 
 	log = malloc(sizeof(char) * 2000);
 	package = NULL;
@@ -185,44 +219,46 @@ void orderProcess(t_data *data, char *deliveryType)
 		{
 			//display(package); //===> DEBUG
 
-            idOrder = sendOrder(data->id, deliveryType, package, (char *)gtk_combo_box_get_active_id(GTK_COMBO_BOX(data->windowUploadFile->selector)), &log);
-			if(!idOrder)
-			{
-				gtk_label_set_markup (GTK_LABEL(data->windowUploadFile->lbl_messageError), log);
-				strcpy(log, "");
-			}
-			else
+			strcpy(idDeposit, (char *)gtk_combo_box_get_active_id(GTK_COMBO_BOX(data->windowUploadFile->selector)));
+
+            idOrder = sendOrder(data->id, deliveryType, package, idDeposit, &log);
+            idBill = getIdBill(idOrder);
+            sendFileInServer(data->id, pathFile, idBill);
+
+            if(!strcmp(idDeposit, "0"))
             {
-                time(&currentTime);
-                timeinfo = localtime(&currentTime);
-
-                itoa(idOrder, txtIdOrder, 10);
-                itoa(timeinfo->tm_year + 1900, yearTime, 10);
-                itoa(timeinfo->tm_mon + 1, monthTime, 10);
-
-			    if(atoi(deliveryType))
-                {
-                    strcpy(log, "<span foreground='#10ac84'>");
-                    strcat(log, "Your express order has been sent succesfully!\n");
-                }
-			    else
-                {
-                    strcpy(log, "<span foreground='#10ac84'>");
-                    strcat(log, "Your standard order has been sent succesfully!\n");
-                }
-
-                strcat(log, "The reference number of your order will be: F");
-                strcat(log, yearTime);
-                strcat(log, monthTime);
-                strcat(log, "0");
-                strcat(log, txtIdOrder);
+                strcpy(log, "<span foreground='red'>");
+                strcat(log, "You have to selected a deposit!\n");
                 strcat(log, "</span>");
 
-                gtk_label_set_markup (GTK_LABEL(data->windowMenu->lbl_messageError), log);
+                gtk_label_set_markup (GTK_LABEL(data->windowUploadFile->lbl_messageError), log);
                 strcpy(log, "");
+            }
+            else
+            {
+                if(!idOrder)
+                {
+                    gtk_label_set_markup (GTK_LABEL(data->windowUploadFile->lbl_messageError), log);
+                    strcpy(log, "");
+                }
+                else
+                {
+                    //======================================
+                    strcpy(log, "<span foreground='#10ac84'>");
+                    if(atoi(deliveryType))
+                        strcat(log, "Your express order has been sent successfully!\n");
+                    else
+                        strcat(log, "Your standard order has been sent successfully!\n");
+                    strcat(log, "The reference number of your order will be: ");
+                    strcat(log, idBill);
+                    strcat(log, "</span>");
 
-                gtk_container_remove(GTK_CONTAINER(window), data->windowUploadFile->box);
-                gtk_container_add(GTK_CONTAINER(window), data->windowMenu->box);
+                    gtk_label_set_markup (GTK_LABEL(data->windowMenu->lbl_messageError), log);
+                    strcpy(log, "");
+
+                    gtk_container_remove(GTK_CONTAINER(window), data->windowUploadFile->box);
+                    gtk_container_add(GTK_CONTAINER(window), data->windowMenu->box);
+                }
             }
 		}
 	}
@@ -269,7 +305,7 @@ int gtkInit(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	data->windowConnection = g_slice_new(t_connection);
 	data->windowMenu = g_slice_new(t_menu);
-	data->windowUploadFile = g_slice_new(t_uploaFile);
+	data->windowUploadFile = g_slice_new(t_uploadFile);
 
 	gtk_init(&argc, &argv);
 
@@ -298,12 +334,13 @@ int gtkInit(int argc, char **argv)
 	data->windowConnection->lbl_messageError = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "lbl_messageError")));
 
 	data->windowMenu->box = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "box_menu")));
+	data->windowMenu->selectorDownloadFolder = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "btn_selectFolder")));
 	data->windowMenu->lbl_messageError = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "lbl_menuLog")));
 
 	data->windowUploadFile->box = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "box_uploadFile")));
 	data->windowUploadFile->inputFile = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "btnFile_uploadFile")));
-	data->windowUploadFile->selector = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "selector_deposit")));
-	data->windowUploadFile->lbl_messageError = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "lbl_UploaFileMessageError")));
+    data->windowUploadFile->selector = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "selector_deposit")));
+    data->windowUploadFile->lbl_messageError = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "lbl_UploaFileMessageError")));
 
 	listDeposit = getListDeposit(&listDepositNbRowElement);
 
@@ -317,8 +354,6 @@ int gtkInit(int argc, char **argv)
 
 	gtk_builder_connect_signals(builder, data);
 
-	gtk_container_add(GTK_CONTAINER(window), data->windowConnection->box);
-
 	g_object_unref(builder);
 
 	gtk_widget_show(window);
@@ -327,7 +362,7 @@ int gtkInit(int argc, char **argv)
 
 	g_slice_free(t_connection, data->windowConnection);
 	g_slice_free(t_menu, data->windowMenu);
-	g_slice_free(t_uploaFile, data->windowUploadFile);
+	g_slice_free(t_uploadFile, data->windowUploadFile);
 
 	free(builder);
 	free(error);

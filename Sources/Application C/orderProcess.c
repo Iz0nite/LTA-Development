@@ -174,12 +174,29 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
 			return 0;
 
         packageTmp = package;
+
         while(packageTmp != NULL)
         {
             itoa(packageTmp->weight * 1000, txtWeight, 10);
             itoa(packageTmp->volume, txtVolumeSize, 10);
             itoa(idOrder, txtIdOrder, 10);
-            addPackage(txtWeight, txtVolumeSize, packageTmp->emailDest, packageTmp->address, packageTmp->city, txtIdOrder, idDeposit, &log);
+
+            for(int i = 1; i < tabPriceNbRowElement - 1; i++)
+            {
+                if(packageTmp->weight * 1000 <= atoi(tabPrice[i][0]))
+                {
+                    addPackage(txtWeight, txtVolumeSize, packageTmp->emailDest, packageTmp->address, packageTmp->city, txtIdOrder, atof(tabPrice[i][1]), idDeposit, &log);
+                    break;
+                }
+            }
+
+            if(packageTmp->weight * 1000 >= atoi(tabPrice[tabPriceNbRowElement - 1][0]))
+            {
+                price = atof(tabPrice[tabPriceNbRowElement][1]) * (int)((atoi(tabPrice[tabPriceNbRowElement][0]) * 1000) / 20000);
+                addPackage(txtWeight, txtVolumeSize, packageTmp->emailDest, packageTmp->address, packageTmp->city, txtIdOrder, price, idDeposit, &log);
+            }
+
+
             packageTmp = packageTmp->next;
         }
 
@@ -187,4 +204,33 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
 	}
 
 	return 0;
+}
+
+
+
+char *getIdBill(int idOrder)
+{
+    struct tm *timeinfo;
+    time_t currentTime;
+    char txtIdOrder[10];
+    char yearTime[5];
+    char monthTime[3];
+    char *idBill;
+
+    idBill = malloc(sizeof(char) * 15);
+
+    time(&currentTime);
+    timeinfo = localtime(&currentTime);
+
+    itoa(idOrder, txtIdOrder, 10);
+    itoa(timeinfo->tm_year + 1900, yearTime, 10);
+    itoa(timeinfo->tm_mon + 1, monthTime, 10);
+
+    strcpy(idBill, "F");
+    strcat(idBill, yearTime);
+    strcat(idBill, monthTime);
+    strcat(idBill, "0");
+    strcat(idBill, txtIdOrder);
+
+    return idBill;
 }

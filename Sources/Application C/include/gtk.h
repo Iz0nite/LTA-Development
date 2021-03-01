@@ -10,6 +10,7 @@
 # include <string.h>
 # include "sql.h"
 # include "orderProcess.h"
+# include "sendFileInServer.h"
 
 
 
@@ -23,6 +24,7 @@ typedef struct s_connection
 typedef struct s_menu
 {
 	GtkWidget *box;
+	GtkWidget *selectorDownloadFolder;
     GtkWidget *lbl_messageError;
 } t_menu;
 
@@ -32,7 +34,7 @@ typedef struct s_uploadFile
 	GtkWidget *inputFile;
 	GtkWidget *selector;
 	GtkWidget *lbl_messageError;
-} t_uploaFile;
+} t_uploadFile;
 
 typedef struct s_data
 {

@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <math.h>
+# include <time.h>
 # include "sql.h"
 
 typedef struct s_package
@@ -20,6 +21,8 @@ typedef struct s_package
 t_package *getDataExcelFile(char *filename, t_package *package);
 
 t_package *addChain(t_package *package, char **data);
+
+char *getIdBill(int idOrder);
 
 int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposit, char **log);
 

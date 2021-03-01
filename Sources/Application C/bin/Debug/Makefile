@@ -222,6 +222,33 @@ orderProcess.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/orderProcess.c.s
 .PHONY : orderProcess.c.s
 
+sendFileInServer.obj: sendFileInServer.c.obj
+
+.PHONY : sendFileInServer.obj
+
+# target to build an object file
+sendFileInServer.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/sendFileInServer.c.obj
+.PHONY : sendFileInServer.c.obj
+
+sendFileInServer.i: sendFileInServer.c.i
+
+.PHONY : sendFileInServer.i
+
+# target to preprocess a source file
+sendFileInServer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/sendFileInServer.c.i
+.PHONY : sendFileInServer.c.i
+
+sendFileInServer.s: sendFileInServer.c.s
+
+.PHONY : sendFileInServer.s
+
+# target to generate assembly for a file
+sendFileInServer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/sendFileInServer.c.s
+.PHONY : sendFileInServer.c.s
+
 sql.obj: sql.c.obj
 
 .PHONY : sql.obj
@@ -267,6 +294,9 @@ help:
 	@echo ... orderProcess.obj
 	@echo ... orderProcess.i
 	@echo ... orderProcess.s
+	@echo ... sendFileInServer.obj
+	@echo ... sendFileInServer.i
+	@echo ... sendFileInServer.s
 	@echo ... sql.obj
 	@echo ... sql.i
 	@echo ... sql.s

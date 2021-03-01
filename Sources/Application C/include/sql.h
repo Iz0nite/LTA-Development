@@ -20,6 +20,6 @@ int getId(char *email, char **log);
 
 int addNewOrder(int idUser, char *deliveryType, double price, char ***log);
 
-int addPackage(char *weight, char *volumeSize, char *emailDest, char *address, char *city, char *idOrder, char *idDeposit, char ***log);
+int addPackage(char *weight, char *volumeSize, char *emailDest, char *address, char *city, char *idOrder, double price, char *idDeposit, char ***log);
 
 #endif

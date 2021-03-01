@@ -178,9 +178,10 @@ char ***getPrice(char *typeDelivery, int *nbRow, char ***log)
 				strcpy(tabPrice[i][1], rowSql[1]);
 
 				commaPosition = 0;
-				while(tabPrice[i][1][commaPosition] != '.')
+				while(tabPrice[i][1][commaPosition] != '.' && commaPosition < strlen(tabPrice[i][1]))
 					commaPosition++;
 
+				if(tabPrice[i][1][commaPosition] == '.')
 				tabPrice[i][1][commaPosition] = ',';
 			}
 			
@@ -313,14 +314,23 @@ char ***getListDeposit(int *nbRow)
 
 
 
-int addPackage(char *weight, char *volumeSize, char *emailDest, char *address, char *city, char *idOrder, char *idDeposit, char ***log)
+int addPackage(char *weight, char *volumeSize, char *emailDest, char *address, char *city, char *idOrder, double price, char *idDeposit, char ***log)
 {
     MYSQL mysql;
     char query[512];
+    char txtPrice[10];
+    int commaPosition;
+
+    gcvt(price, 4, txtPrice);
+
+    commaPosition = 0;
+    while(txtPrice[commaPosition] != ',')
+        commaPosition++;
+    txtPrice[commaPosition] = '.';
 
     if(setupMysqlConexion(&mysql))
     {
-        strcpy(query,"INSERT INTO PACKAGES (weight, volumeSize, emailDest, address, city, status, idOrder, idDeposit) VALUES ('");
+        strcpy(query,"INSERT INTO PACKAGES (weight, volumeSize, emailDest, address, city, status, idOrder, idDeposit, price) VALUES ('");
         strcat(query, weight);
         strcat(query,"', '");
         strcat(query, volumeSize);
@@ -334,6 +344,8 @@ int addPackage(char *weight, char *volumeSize, char *emailDest, char *address, c
         strcat(query, idOrder);
         strcat(query,"', '");
         strcat(query, idDeposit);
+        strcat(query,"', '");
+        strcat(query, txtPrice);
         strcat(query,"')");
 
         mysql_query(&mysql, query);
