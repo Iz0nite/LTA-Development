@@ -319,14 +319,17 @@ int addPackage(char *weight, char *volumeSize, char *emailDest, char *address, c
     MYSQL mysql;
     char query[512];
     char txtPrice[10];
+    int idPackage;
     int commaPosition;
 
     gcvt(price, 4, txtPrice);
+    txtPrice[4] = '\0';
 
     commaPosition = 0;
     while(txtPrice[commaPosition] != ',')
         commaPosition++;
-    txtPrice[commaPosition] = '.';
+    if(txtPrice[commaPosition] == ',')
+        txtPrice[commaPosition] = '.';
 
     if(setupMysqlConexion(&mysql))
     {
@@ -349,10 +352,11 @@ int addPackage(char *weight, char *volumeSize, char *emailDest, char *address, c
         strcat(query,"')");
 
         mysql_query(&mysql, query);
+        idPackage = mysql_insert_id(&mysql);
 
         mysql_close(&mysql);
 
-        return 1;
+        return idPackage;
     }
     else
     {

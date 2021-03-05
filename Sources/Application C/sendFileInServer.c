@@ -88,7 +88,7 @@ size_t read_callback(char *ptr, size_t size, size_t nmemb, void *stream){
 
 
 
-void sendFileInServer(int idUser, char *srcFile, char *idBill)
+void sendFileInServer(int idUser, char *srcFile, char *idFile, int fileType)
 {
     MYSQL mysql;
     char txtIdUser[5];
@@ -119,12 +119,25 @@ void sendFileInServer(int idUser, char *srcFile, char *idBill)
 
         curl = curl_easy_init();
         if(curl){
-
             strcpy(query, "sftp://51.77.144.219/var/www/html/users/");
             strcat(query, txtIdUser);
-            strcat(query, "/");
-            strcat(query, idBill);
-            strcat(query, ".csv");
+
+            printf("file type: %d\n", fileType);
+            switch(fileType)
+            {
+                case 0:
+                    strcat(query, "/bill/");
+                    strcat(query, idFile);
+                    strcat(query, ".csv");
+                    printf("file to send: %s\n", srcFile);
+                    break;
+
+                case 1:
+                    strcat(query, "/qrcode/");
+                    strcat(query, srcFile);
+                    printf("file to send: %s\n", srcFile);
+                    break;
+            }
 
             printf("query : %s\n", query);
 

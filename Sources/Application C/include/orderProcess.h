@@ -7,6 +7,9 @@
 # include <math.h>
 # include <time.h>
 # include "sql.h"
+# include "gtk.h"
+# include "qrcodeProcess.h"
+# include "sendFileInServer.h"
 
 typedef struct s_package
 {
@@ -24,6 +27,6 @@ t_package *addChain(t_package *package, char **data);
 
 char *getIdBill(int idOrder);
 
-int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposit, char **log);
+int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposit, char **log, GtkWidget *progressBar);
 
 #endif

@@ -222,6 +222,60 @@ orderProcess.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/orderProcess.c.s
 .PHONY : orderProcess.c.s
 
+qrcodeProcess.obj: qrcodeProcess.c.obj
+
+.PHONY : qrcodeProcess.obj
+
+# target to build an object file
+qrcodeProcess.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/qrcodeProcess.c.obj
+.PHONY : qrcodeProcess.c.obj
+
+qrcodeProcess.i: qrcodeProcess.c.i
+
+.PHONY : qrcodeProcess.i
+
+# target to preprocess a source file
+qrcodeProcess.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/qrcodeProcess.c.i
+.PHONY : qrcodeProcess.c.i
+
+qrcodeProcess.s: qrcodeProcess.c.s
+
+.PHONY : qrcodeProcess.s
+
+# target to generate assembly for a file
+qrcodeProcess.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/qrcodeProcess.c.s
+.PHONY : qrcodeProcess.c.s
+
+qrcodegen.obj: qrcodegen.c.obj
+
+.PHONY : qrcodegen.obj
+
+# target to build an object file
+qrcodegen.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/qrcodegen.c.obj
+.PHONY : qrcodegen.c.obj
+
+qrcodegen.i: qrcodegen.c.i
+
+.PHONY : qrcodegen.i
+
+# target to preprocess a source file
+qrcodegen.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/qrcodegen.c.i
+.PHONY : qrcodegen.c.i
+
+qrcodegen.s: qrcodegen.c.s
+
+.PHONY : qrcodegen.s
+
+# target to generate assembly for a file
+qrcodegen.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LTA-Development.dir\build.make CMakeFiles/LTA-Development.dir/qrcodegen.c.s
+.PHONY : qrcodegen.c.s
+
 sendFileInServer.obj: sendFileInServer.c.obj
 
 .PHONY : sendFileInServer.obj
@@ -294,6 +348,12 @@ help:
 	@echo ... orderProcess.obj
 	@echo ... orderProcess.i
 	@echo ... orderProcess.s
+	@echo ... qrcodeProcess.obj
+	@echo ... qrcodeProcess.i
+	@echo ... qrcodeProcess.s
+	@echo ... qrcodegen.obj
+	@echo ... qrcodegen.i
+	@echo ... qrcodegen.s
 	@echo ... sendFileInServer.obj
 	@echo ... sendFileInServer.i
 	@echo ... sendFileInServer.s

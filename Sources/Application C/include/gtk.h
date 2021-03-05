@@ -36,17 +36,27 @@ typedef struct s_uploadFile
 	GtkWidget *lbl_messageError;
 } t_uploadFile;
 
+typedef struct s_processProgress
+{
+	GtkWidget *box;
+	GtkWidget *progressBar;
+	GtkWidget *lbl_message;
+} t_processProgress;
+
 typedef struct s_data
 {
-	int						id;
-	struct s_connection		*windowConnection;
-	struct s_menu			*windowMenu;
-	struct s_uploadFile		*windowUploadFile;
+	int						    id;
+	struct s_connection		    *windowConnection;
+	struct s_menu			    *windowMenu;
+	struct s_uploadFile		    *windowUploadFile;
+	struct s_processProgress	*windowProgressProcess;
 } t_data;
 
 
 
 void orderProcess(t_data *data, char *deliveryType);
+
+void updateProgressBar(GtkWidget *progressBar, int progressValue);
 
 int gtkInit(int argc, char **argv);
 

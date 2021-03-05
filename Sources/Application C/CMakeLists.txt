@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(LTA-Development C)
 set(CMAKE_C_STANDARD 99)
 
-add_executable(LTA-Development main.c gtk.c sql.c orderProcess.c sendFileInServer.c)
+add_executable(LTA-Development main.c gtk.c sql.c orderProcess.c sendFileInServer.c qrcodegen.c qrcodegen.c qrcodeProcess.c)
 
 find_package(PkgConfig REQUIRED)
 

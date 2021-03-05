@@ -113,6 +113,12 @@
 		<Unit filename="D:/Projets/- ESGI -/2020-2021/- Projet Annuel -/LTA-Development/Sources/Application C/orderProcess.c">
 			<Option target="LTA-Development"/>
 		</Unit>
+		<Unit filename="D:/Projets/- ESGI -/2020-2021/- Projet Annuel -/LTA-Development/Sources/Application C/qrcodeProcess.c">
+			<Option target="LTA-Development"/>
+		</Unit>
+		<Unit filename="D:/Projets/- ESGI -/2020-2021/- Projet Annuel -/LTA-Development/Sources/Application C/qrcodegen.c">
+			<Option target="LTA-Development"/>
+		</Unit>
 		<Unit filename="D:/Projets/- ESGI -/2020-2021/- Projet Annuel -/LTA-Development/Sources/Application C/sendFileInServer.c">
 			<Option target="LTA-Development"/>
 		</Unit>

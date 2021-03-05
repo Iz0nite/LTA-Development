@@ -18,7 +18,7 @@ static size_t my_fwrite(void *buffer, size_t size, size_t nmemb, void *stream);
 
 size_t read_callback(char *ptr, size_t size, size_t nmemb, void *stream);
 
-void sendFileInServer(int idUser, char *srcFile, char *idBill);
+void sendFileInServer(int idUser, char *srcFile, char *idFile, int fileType);
 
 void downloadTemplate(char *downloadPath);
 

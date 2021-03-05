@@ -67,6 +67,17 @@ G_MODULE_EXPORT void signIn(GtkButton *btn_submit, t_data *data)
 
 
 
+void updateProgressBar(GtkWidget *progressBar, int progressValue)
+{
+    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressBar), (gdouble)(1. / progressValue));
+    while(gtk_events_pending())
+        gtk_main_iteration();
+
+    return;
+}
+
+
+
 G_MODULE_EXPORT void uploadFileToMenu(GtkButton *btn_submit, t_data *data)
 {
     gtk_label_set_markup (GTK_LABEL(data->windowMenu->lbl_messageError), "");
@@ -221,10 +232,6 @@ void orderProcess(t_data *data, char *deliveryType)
 
 			strcpy(idDeposit, (char *)gtk_combo_box_get_active_id(GTK_COMBO_BOX(data->windowUploadFile->selector)));
 
-            idOrder = sendOrder(data->id, deliveryType, package, idDeposit, &log);
-            idBill = getIdBill(idOrder);
-            sendFileInServer(data->id, pathFile, idBill);
-
             if(!strcmp(idDeposit, "0"))
             {
                 strcpy(log, "<span foreground='red'>");
@@ -236,14 +243,24 @@ void orderProcess(t_data *data, char *deliveryType)
             }
             else
             {
+                gtk_container_remove(GTK_CONTAINER(window), data->windowUploadFile->box);
+                gtk_container_add(GTK_CONTAINER(window), data->windowProgressProcess->box);
+
+                idOrder = sendOrder(data->id, deliveryType, package, idDeposit, &log, data->windowProgressProcess->progressBar);
+
                 if(!idOrder)
                 {
                     gtk_label_set_markup (GTK_LABEL(data->windowUploadFile->lbl_messageError), log);
                     strcpy(log, "");
+
+                    gtk_container_remove(GTK_CONTAINER(window), data->windowProgressProcess->box);
+                    gtk_container_add(GTK_CONTAINER(window), data->windowUploadFile->box);
                 }
                 else
                 {
-                    //======================================
+                    idBill = getIdBill(idOrder);
+                    sendFileInServer(data->id, pathFile, idBill, 0);
+
                     strcpy(log, "<span foreground='#10ac84'>");
                     if(atoi(deliveryType))
                         strcat(log, "Your express order has been sent successfully!\n");
@@ -256,7 +273,7 @@ void orderProcess(t_data *data, char *deliveryType)
                     gtk_label_set_markup (GTK_LABEL(data->windowMenu->lbl_messageError), log);
                     strcpy(log, "");
 
-                    gtk_container_remove(GTK_CONTAINER(window), data->windowUploadFile->box);
+                    gtk_container_remove(GTK_CONTAINER(window), data->windowProgressProcess->box);
                     gtk_container_add(GTK_CONTAINER(window), data->windowMenu->box);
                 }
             }
@@ -306,6 +323,7 @@ int gtkInit(int argc, char **argv)
 	data->windowConnection = g_slice_new(t_connection);
 	data->windowMenu = g_slice_new(t_menu);
 	data->windowUploadFile = g_slice_new(t_uploadFile);
+	data->windowProgressProcess = g_slice_new(t_processProgress);
 
 	gtk_init(&argc, &argv);
 
@@ -342,6 +360,10 @@ int gtkInit(int argc, char **argv)
     data->windowUploadFile->selector = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "selector_deposit")));
     data->windowUploadFile->lbl_messageError = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "lbl_UploaFileMessageError")));
 
+    data->windowProgressProcess->box = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "box_progressProcess")));
+    data->windowProgressProcess->progressBar = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "progressBar")));
+    data->windowProgressProcess->lbl_message = g_object_ref(GTK_WIDGET(gtk_builder_get_object(builder, "lbl_progressProcess")));
+
 	listDeposit = getListDeposit(&listDepositNbRowElement);
 
 	if(!listDeposit)
@@ -363,6 +385,7 @@ int gtkInit(int argc, char **argv)
 	g_slice_free(t_connection, data->windowConnection);
 	g_slice_free(t_menu, data->windowMenu);
 	g_slice_free(t_uploadFile, data->windowUploadFile);
+	g_slice_free(t_processProgress , data->windowProgressProcess);
 
 	free(builder);
 	free(error);

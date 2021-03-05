@@ -115,7 +115,7 @@ t_package *getDataExcelFile(char *filename, t_package *package)
 
 
 
-int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposit, char **log)
+int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposit, char **log, GtkWidget *progressBar)
 {
 	t_package *packageTmp;
 	char ***tabPrice;
@@ -124,11 +124,14 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
 	char txtWeight[10];
 	char txtVolumeSize[10];
 	char txtIdOrder[10];
+	char qrcodePathFile[14];
 	int tabPriceNbRowElement;
-	int check;
-	int tmpWeight;
-	int tmpRow;
-	int idOrder;
+    int check;
+    int tmpWeight;
+    int tmpRow;
+    int idOrder;
+    int idPackage;
+    int nbPackage;
 
 	price = 0;
 	packageTmp = package;
@@ -136,6 +139,7 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
 
 	if(tabPrice)
 	{
+	    nbPackage = 0;
 		while(packageTmp != NULL)
 		{
 			check = 0;
@@ -145,7 +149,8 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
 				tmpRow = i;
 				tmpWeight = atoi(tabPrice[i][0]);
 
-				if(packageTmp->weight * 1000 <= tmpWeight && check != 1){
+				if(packageTmp->weight * 1000 <= tmpWeight && check != 1)
+				{
 					check = 1;
 					tmpPrice = atof(tabPrice[i][1]);
 				}
@@ -165,6 +170,7 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
 			}
 
 			price += tmpPrice;
+			nbPackage++;
 			packageTmp = packageTmp->next;
 		}
 
@@ -185,18 +191,30 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
             {
                 if(packageTmp->weight * 1000 <= atoi(tabPrice[i][0]))
                 {
-                    addPackage(txtWeight, txtVolumeSize, packageTmp->emailDest, packageTmp->address, packageTmp->city, txtIdOrder, atof(tabPrice[i][1]), idDeposit, &log);
+                    idPackage = addPackage(txtWeight, txtVolumeSize, packageTmp->emailDest, packageTmp->address, packageTmp->city, txtIdOrder, atof(tabPrice[i][1]), idDeposit, &log);
+                    createQrcode(idPackage);
+                    itoa(idPackage, qrcodePathFile, 10);
+                    strcat(qrcodePathFile, ".bmp");
+                    sendFileInServer(idUser, qrcodePathFile, NULL, 1);
                     break;
                 }
             }
 
             if(packageTmp->weight * 1000 >= atoi(tabPrice[tabPriceNbRowElement - 1][0]))
             {
-                price = atof(tabPrice[tabPriceNbRowElement][1]) * (int)((atoi(tabPrice[tabPriceNbRowElement][0]) * 1000) / 20000);
-                addPackage(txtWeight, txtVolumeSize, packageTmp->emailDest, packageTmp->address, packageTmp->city, txtIdOrder, price, idDeposit, &log);
+                printf("price: %lf\n", atof(tabPrice[tabPriceNbRowElement - 1][1]));
+                printf("multiplier price : %lf\n", ((atoi(tabPrice[tabPriceNbRowElement - 1][0]) * 1000) / 20000));
+                price = atof(tabPrice[tabPriceNbRowElement - 1][1]) * (int)((atoi(tabPrice[tabPriceNbRowElement - 1][0]) * 1000) / 20000);
+                idPackage = addPackage(txtWeight, txtVolumeSize, packageTmp->emailDest, packageTmp->address, packageTmp->city, txtIdOrder, price, idDeposit, &log);
+                createQrcode(idPackage);
+                itoa(idPackage, qrcodePathFile, 10);
+                strcat(qrcodePathFile, ".bmp");
+                sendFileInServer(idUser, qrcodePathFile, NULL, 1);
             }
 
+            updateProgressBar(progressBar, nbPackage);
 
+            nbPackage--;
             packageTmp = packageTmp->next;
         }
 

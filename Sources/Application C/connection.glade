@@ -147,6 +147,44 @@
       </packing>
     </child>
   </object>
+  <object class="GtkBox" id="box_progressProcess">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkLabel" id="lbl_progressProcess">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-top">129</property>
+        <property name="label" translatable="yes">Your order is being created
+please wait a moment...</property>
+        <property name="justify">center</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkProgressBar" id="progressBar">
+        <property name="width-request">340</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <property name="margin-top">20</property>
+        <property name="pulse-step">0.01</property>
+        <property name="show-text">True</property>
+        <property name="ellipsize">middle</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
   <object class="GtkBox" id="box_uploadFile">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -303,7 +341,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -340,7 +378,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -358,7 +396,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>
