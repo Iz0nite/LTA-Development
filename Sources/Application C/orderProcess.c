@@ -196,6 +196,7 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
                     itoa(idPackage, qrcodePathFile, 10);
                     strcat(qrcodePathFile, ".bmp");
                     sendFileInServer(idUser, qrcodePathFile, NULL, 1);
+                    remove(qrcodePathFile);
                     break;
                 }
             }
@@ -210,6 +211,7 @@ int sendOrder(int idUser, char *deliveryType, t_package *package, char *idDeposi
                 itoa(idPackage, qrcodePathFile, 10);
                 strcat(qrcodePathFile, ".bmp");
                 sendFileInServer(idUser, qrcodePathFile, NULL, 1);
+                remove(qrcodePathFile);
             }
 
             updateProgressBar(progressBar, nbPackage);
