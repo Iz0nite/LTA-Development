@@ -1,3 +1,7 @@
+<?php
+    header("Location: ./en/home.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>

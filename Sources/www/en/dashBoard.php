@@ -36,6 +36,7 @@
             <?php include("./php/usersList.php"); ?>
             <?php include("./php/ordersList.php"); ?>
             <?php include("./php/packagesList.php"); ?>
+            <?php include("./php/addAdmin.php"); ?>
         </main>
         <?php include("./php/footer.php"); ?>
         <script src="../js/usersList.js"></script>

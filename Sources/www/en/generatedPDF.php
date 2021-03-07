@@ -165,7 +165,7 @@
     // $pdf->Cell(25, 5, "./../users/" . $tab[2]['idUser'] . "/qrcode/" . $nameOrder . ".bmp", 0, 1, 'L');
 
     //QRCode
-    $pdf->Image("./../users/" . $tab[2]['idUser'] . "/qrcode/" . $nameOrder . ".png", 25, 180, 40);
+    // $pdf->Image("./../users/" . $tab[2]['idUser'] . "/qrcode/" . $nameOrder . ".png", 25, 180, 40); //goodOne
     // $pdf->Image("./../users/2/qrcode/F20210202.bmp", 25, 180, 40);
 
     $pdf->Output("I", $nom_file, true);

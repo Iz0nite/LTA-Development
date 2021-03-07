@@ -130,10 +130,6 @@
                     <p><b>Type of payment:</b> <?=($tab[1]['paymentType'] == 0) ? 'Credit card' : 'Bank transfer' ?></p>
                     <p><b>Payment due date:</b> 45 days end of month</p>
                 </div>
-
-                <div class="QRCode">
-                    <img src="./../users/<?=$tab[2]['idUser']?>/qrcode/<?=$nameOrder?>.bmp" alt="QRCode Order">
-                </div>
             </div>
 
             <div class="paymentButton">

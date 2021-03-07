@@ -29,12 +29,15 @@
         <?php
             include("./php/header.php");
 
-            if ($_SESSION['status'] == 0)
+            ?>
+            <div class='profile'>
+            <?php
+
+            if($_SESSION['status'] == 0)
             {
         ?>
-                <div class='profile'>
 
-                    <h3>Modify company information</h3>
+                    <h3>Modify company informations</h3>
                     <form class='companyInformation' action='./../config/config.php' method='post' id="companyInformation">
                         <div class='field'>
                             <label>Email</label>
@@ -56,25 +59,86 @@
                             <input type='text' name='companyName' placeholder='The name of your company' value="<?php echo getUserData($_SESSION['idUser'], 'companyName')?>">
                         </div>
 
+                        <input type='hidden' name='formType' value='updateProfile'>
+                    </form>
+                    <input type='submit' value='save' form="companyInformation">
+        <?php
+            }elseif($_SESSION['status'] == 1){ ?>
+
+                    <h3>Modify delivery informations</h3>
+                    <form class='companyInformation' action='./../config/config.php' method='post' id="companyInformation">
+                        <div class='field'>
+                            <label>Email</label>
+                            <input type='text' name='email' placeholder='Your email' value='<?php echo getUserData($_SESSION['idUser'], 'email')?>' disabled>
+                        </div>
+
+                        <div class='field'>
+                            <label>First name</label>
+                            <input type='text' name='firstName' placeholder='Your first name' value='<?php echo getUserData($_SESSION['idUser'], 'firstName')?>' disabled>
+                        </div>
+
+                        <div class='field'>
+                            <label>Last name</label>
+                            <input type='text' name='lastName' placeholder='Your last name' value='<?php echo getUserData($_SESSION['idUser'], 'name')?>' disabled>
+                        </div>
+
+                        <div class='field'>
+                            <label>Phone number</label>
+                            <input type='text' name='phoneNumber' placeholder='Your phone number' value='<?php echo getUserData($_SESSION['idUser'], 'telNumber')?>'>
+                        </div>
+
                         <div class='field'>
                             <label>Affiliate Deposit</label>
                             <select name='idDeposit'>
-        <?php
-            }
-            foreach($depositsList as $deposit)
-            {
-                if (getUserData($_SESSION['idUser'], 'idDeposit') == $deposit['idDeposit'])
-                    echo "<option value='" . $deposit['idDeposit'] . "' selected>" . $deposit['address'] . ", " . $deposit['city'] . "</option>";
-                else
-                    echo "<option value='" . $deposit['idDeposit'] . "'>" . $deposit['address'] . ", " . $deposit['city'] . "</option>";
-            }
-        ?>
+                        <?php
+                        foreach($depositsList as $deposit)
+                        {
+                            if (getUserData($_SESSION['idUser'], 'idDeposit') == $deposit['idDeposit'])
+                                echo "<option value='" . $deposit['idDeposit'] . "' selected>" . $deposit['address'] . ", " . $deposit['city'] . "</option>";
+                            else
+                                echo "<option value='" . $deposit['idDeposit'] . "'>" . $deposit['address'] . ", " . $deposit['city'] . "</option>";
+                        }
+                        ?>
                             </select>
+                        </div>
+
+                        <div class='field'>
+                            <label>Geo area</label>
+                            <input type='number' name='geoArea' placeholder='Select a work area arround the deposit  ' value='<?php echo getUserData($_SESSION['idUser'], 'geoArea')?>'>
                         </div>
 
                         <input type='hidden' name='formType' value='updateProfile'>
                     </form>
                     <input type='submit' value='save' form="companyInformation">
+
+                    <hr>
+
+                    <div class="vehiclesInformation"  id="vehiclesInformation">
+                        <label>List of your vehicle</label>
+
+                        <div class="listVehicle" id="listVehicle">
+
+                            <?php vehicleList(); ?>
+
+                        </div>
+
+
+                        <div class='field'>
+                            <label>Registration</label>
+                            <input id="registration" type='text' name='registration' placeholder='The registration of your vehicle'>
+                        </div>
+
+                        <div class='field'>
+                            <label>Volume size</label>
+                            <input id="volumeSize" type='number' name='volumeSize' placeholder='The volume your vehicle can hold (in m3)'>
+                        </div>
+
+                    </div>
+                    <input type='submit' value='Add' onclick="addVehicle()">
+
+                <?php
+                }
+                ?>
 
                     <hr>
 
@@ -104,5 +168,6 @@
         <?php
             include("./php/footer.php");
         ?>
+        <script src="../js/profile.js"></script>
     </body>
 </html>

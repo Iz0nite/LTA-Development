@@ -66,11 +66,8 @@
             <input class="input" type="password" name="password" placeholder="Password">
             <input class="input" type="password" name="confirmPassword" placeholder="Confirm your password">
             <input class="input" type="text" name="firstName" placeholder="First Name">
-            <input class="input" type="text" name="name" placeholder="Name">
+            <input class="input" type="text" name="name" placeholder="Last name">
             <input class="input" type="text" name="numTel" placeholder="Tel Number">
-            <input class="input" type="text" name="vehiculeVolume" placeholder="Volume of your vehicule">
-            <input class="input" type="text" name="imatriculation" placeholder="Imatriculation">
-            <input class="input" type="text" name="geoArea" placeholder="Geographic Area">
 
             <input type="hidden" name="formType" value="signUpDelivery">
             <input class="submit" type="submit" value="Send">

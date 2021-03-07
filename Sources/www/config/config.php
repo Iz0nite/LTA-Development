@@ -37,6 +37,9 @@
         else if ($_POST['formType'] == "deletePackage") {
             deletePackage();
         }
+        else if ($_POST['formType'] == "addAdmin") {
+            addAdmin();
+        }
 
     }
 
@@ -55,6 +58,11 @@
             packagesList();
         }else if ($_GET['formType'] == 'showPackageDetails') {
             showPackageDetails();
+        }else if ($_GET['formType'] == 'addVehicle') {
+            addVehicle();
+        }
+        else if ($_GET['formType'] == 'deleteVehicle') {
+            deleteVehicle();
         }
     }
 
@@ -88,8 +96,6 @@
         return $rslt[0][$key];
     }
 
-
-
     /* Add a new package to the database */
     function addPackage()
     {
@@ -105,7 +111,7 @@
             'idDeposit' => 1
         ));
 
-        header('location: ./../en/createPackage');
+        header('Location: ./../en/createPackage');
     }
 
 
@@ -122,37 +128,42 @@
 
         if ($res)
         {
-            header('location: ./../connection');
+            header('Location: ./../en/connection');
             exit();
         }
 
         if (strlen($_POST['password'])<8) {
-            header('location: ./../connection');
+            header('Location: ./../en/connection');
             exit();
         }
 
         if (strcmp($_POST['password'],$_POST['confirmPassword'])!=0) {
-            header('location: ./../en/connection');
+            header('Location: ./../en/connection');
             exit();
         }
 
         $status = 0;
 
-        $req = setupCredentials()->prepare("INSERT INTO USERS(companyName,email,address,telNumber,password,status) VALUES (:companyName, :email, :address, :telNumber, :password, :status)");
-        $req->bindParam(':companyName', trim(htmlspecialchars($_POST['companyName'])), PDO::PARAM_STR);
-        $req->bindParam(':email', trim(htmlspecialchars($_POST['email'])), PDO::PARAM_STR);
-        $req->bindParam(':address', trim(htmlspecialchars($_POST['address'])), PDO::PARAM_STR);
-        $req->bindParam(':telNumber', trim(htmlspecialchars($_POST['numTel'])), PDO::PARAM_STR);
-        $req->bindParam(':password', hash('sha256', trim(htmlspecialchars($_POST['password']))), PDO::PARAM_STR);
+        $bdd = setupCredentials();
+        $req = $bdd->prepare("INSERT INTO USERS(companyName,email,address,telNumber,password,status) VALUES (:companyName, :email, :address, :telNumber, :password, :status)");
+        $req->bindValue(':companyName', trim(htmlspecialchars($_POST['companyName'])), PDO::PARAM_STR);
+        $req->bindValue(':email', trim(htmlspecialchars($_POST['email'])), PDO::PARAM_STR);
+        $req->bindValue(':address', trim(htmlspecialchars($_POST['address'])), PDO::PARAM_STR);
+        $req->bindValue(':telNumber', trim(htmlspecialchars($_POST['numTel'])), PDO::PARAM_STR);
+        $req->bindValue(':password', hash('sha256', trim(htmlspecialchars($_POST['password']))), PDO::PARAM_STR);
         $req->bindParam(':status', $status, PDO::PARAM_INT);
         $req->execute();
 
-        header('location: ./../en/connection');
+        mkdir("./../users/" . $bdd->lastInsertId(), 0777, true);
+        mkdir("./../users/" . $bdd->lastInsertId() . "/qrcode", 0777, true);
+        mkdir("./../users/" . $bdd->lastInsertId() . "/bill", 0777, true);
+
+        header('Location: ./../en/connection');
     }
 
 
 
-    /* Add a new elivery man to the database */
+    /* Add a new delivery man to the database */
     function signUpDelivery()
     {
         $req = setupCredentials()->prepare("SELECT email FROM USERS WHERE email=?");
@@ -164,35 +175,32 @@
 
         if ($res)
         {
-            header('location: ./../en/connection');
+            header('Location: ./../en/connection');
             exit();
         }
 
         if (strlen($_POST['password'])<8) {
-            header('location: ./../en/connection');
+            header('Location: ./../en/connection');
             exit();
         }
 
         if (strcmp($_POST['password'],$_POST['confirmPassword'])!=0) {
-            header('location: ./../en/connection');
+            header('Location: ./../en/connection');
             exit();
         }
 
         $status = 1;
 
-        $req = setupCredentials()->prepare("INSERT INTO USERS(firstName,name,email,telNumber,password,vehicleVolume,imatriculation,geoArea,status) VALUES (:firstName, :name, :email, :telNumber, :password, :vehicleVolume, :imatriculation, :geoArea, :status)");
+        $req = setupCredentials()->prepare("INSERT INTO USERS(firstName,name,email,telNumber,password,status) VALUES (:firstName, :name, :email, :telNumber, :password, :status)");
         $req->bindParam(':firstName', trim(htmlspecialchars($_POST['firstName'])), PDO::PARAM_STR);
         $req->bindParam(':name', trim(htmlspecialchars($_POST['name'])), PDO::PARAM_STR);
         $req->bindParam(':email', trim(htmlspecialchars($_POST['email'])), PDO::PARAM_STR);
         $req->bindParam(':telNumber', trim(htmlspecialchars($_POST['numTel'])), PDO::PARAM_STR);
         $req->bindParam(':password', hash('sha256', trim(htmlspecialchars($_POST['password']))), PDO::PARAM_STR);
-        $req->bindParam(':vehicleVolume', intval(trim(htmlspecialchars($_POST['vehicleVolume']))), PDO::PARAM_INT);
-        $req->bindParam(':imatriculation', trim(htmlspecialchars($_POST['imatriculation'])), PDO::PARAM_STR);
-        $req->bindParam(':geoArea', intval(trim(htmlspecialchars($_POST['geoArea']))), PDO::PARAM_INT);
         $req->bindParam(':status', $status, PDO::PARAM_INT);
         $req->execute();
 
-        header('location: ./../en/connection');
+        header('Location: ./../en/connection');
     }
 
 
@@ -208,23 +216,24 @@
 
         $res=$req->fetchAll(\PDO::FETCH_ASSOC);
 
-        if ($res)
+        if($res)
         {
             $_SESSION['idUser'] = $res[0]['idUser'];
             $_SESSION['status'] = $res[0]['status'];
+            $_SESSION['setMethod'] = 1;
 
             if ($_SESSION['status'] == 2) {
-                header('location: ./../en/dashBoard.php');
+                header('Location: ./../en/dashBoard.php');
                 exit();
             }
 
-            header('location: ./../en/home');
+            header('Location: ./../en/home');
             exit();
         }
         else
         {
             session_unset();
-            header('location: ./../en/connection');
+            header('Location: ./../en/connection');
             exit();
         }
     }
@@ -236,7 +245,7 @@
     {
         session_unset();
 
-        header("location: ./../en/connection");
+        header("Location: ./../en/connection");
     }
 
 
@@ -261,7 +270,7 @@
         {
             if(!isset($_POST['address']) || !isset($_POST['phoneNumber']) || !isset($_POST['companyName']) || !isset($_POST['idDeposit']))
             {
-                header("location: ./../en/profile");
+                header("Location: ./../en/profile");
                 exit();
             }
 
@@ -274,8 +283,80 @@
             $req->bindParam(':idUser', trim(htmlspecialchars($_SESSION['idUser'])), PDO::PARAM_INT);
             $req->execute();
 
-            header("location: ./../en/profile");
+            header("Location: ./../en/profile");
         }
+        else if ($_SESSION['status'] == 1) {
+
+            if(!isset($_POST['phoneNumber']) || !isset($_POST['idDeposit']) || !isset($_POST['geoArea']))
+            {
+                header("Location: ./../en/profile");
+                exit();
+            }
+
+            $req = setupCredentials()->prepare("UPDATE USERS SET telNumber=:telNumber, idDeposit=:idDeposit, geoArea=:geoArea WHERE idUser=:idUser");
+
+            $req->bindParam(':telNumber', trim(htmlspecialchars($_POST['phoneNumber'])), PDO::PARAM_STR);
+            $req->bindParam(':idDeposit', trim(htmlspecialchars($_POST['idDeposit'])), PDO::PARAM_INT);
+            $req->bindParam(':geoArea', trim(htmlspecialchars($_POST['geoArea'])), PDO::PARAM_STR);
+            $req->bindParam(':idUser', trim(htmlspecialchars($_SESSION['idUser'])), PDO::PARAM_INT);
+            $req->execute();
+
+            header("Location: ./../en/profile");
+        }
+    }
+
+    function vehicleList(){
+        $req = setupCredentials()->prepare("SELECT idVehicle,registration,volumeSize FROM VEHICLE WHERE idUser=:idUser");
+        $req->bindParam(':idUser', trim(htmlspecialchars($_SESSION['idUser'])), PDO::PARAM_INT);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($res as $key => $value) {
+            echo "<div>
+                    <label>Registration: ".$value['registration']."</label>
+                    <label>Volume size: ".$value['volumeSize']."</label>
+                    <button type='button' name='deleteVehicle' onclick='deleteVehicle(".$value['idVehicle'].")'>Delete this vehicle</button>
+                 </div>";
+        }
+    }
+
+
+    function addVehicle(){
+
+        $req = setupCredentials()->prepare("SELECT registration FROM VEHICLE WHERE registration=:registration");
+        $req->bindParam(':registration', $_GET['registration'], PDO::PARAM_STR);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($res)
+        {
+            vehicleList();
+            exit();
+        }
+
+        if ($_GET['registration'] == "" || $_GET['volumeSize'] == "") {
+            vehicleList();
+            exit();
+        }
+
+        $req = setupCredentials()->prepare("INSERT INTO VEHICLE(registration,volumeSize,idUser) VALUES (:registration,:volumeSize,:idUser)");
+        $req->bindParam(':registration', trim(htmlspecialchars($_GET['registration'])), PDO::PARAM_STR);
+        $req->bindParam(':volumeSize', trim(htmlspecialchars($_GET['volumeSize'])), PDO::PARAM_INT);
+        $req->bindParam(':idUser', trim(htmlspecialchars($_SESSION['idUser'])), PDO::PARAM_INT);
+        $req->execute();
+
+        vehicleList();
+    }
+
+    function deleteVehicle(){
+
+        $req = setupCredentials()->prepare("DELETE FROM VEHICLE WHERE idVehicle = :idVehicle");
+        $req->bindParam(':idVehicle',$_GET['idVehicle'], PDO::PARAM_INT);
+        $req->execute();
+
+        vehicleList();
+
+
     }
 
 
@@ -285,7 +366,7 @@
     {
         if(!isset($_POST['currentPassword']) || !isset($_POST['newPassword']) || !isset($_POST['confirmPassword']))
         {
-            header("location: ./../en/profile");
+            header("Location: ./../en/profile");
             exit();
         }
 
@@ -300,12 +381,12 @@
 
         if (!$res)
         {
-            header('location: ./../en/profile');
+            header('Location: ./../en/profile');
             exit();
         }
 
         if (strcmp($_POST['newPassword'], $_POST['confirmPassword'])) {
-            header('location: ./../en/profile');
+            header('Location: ./../en/profile');
             exit();
         }
 
@@ -316,7 +397,7 @@
         $req->bindParam(':idUser', $_SESSION['idUser'], PDO::PARAM_INT);
         $req->execute();
 
-        header("location: ./../en/profile");
+        header("Location: ./../en/profile");
     }
 
 
@@ -339,12 +420,12 @@
             $req->bindParam(':email', trim(htmlspecialchars($_POST['email'])), PDO::PARAM_STR);
             $req->execute();
 
-            header('location: ./../en/appConnection');
+            header('Location: ./../en/appConnection');
             exit();
         }
         else
         {
-            header('location: ./../en/appConnection');
+            header('Location: ./../en/appConnection');
             exit();
         }
     }
@@ -358,7 +439,7 @@
         $res=$req->fetchAll(\PDO::FETCH_ASSOC);
 
         foreach ($res as $key => $value) {
-            echo "<ul>
+            echo "<ul id = 'ulPackage".$value['idPackage']."'>
                     <label>Package: ".$value['idPackage']."</label>
                     <li>Weight: ".$value['weight']."</li>
                     <li>Volume Size: ".$value['volumeSize']." m3</li>
@@ -372,6 +453,7 @@
                          echo "delivered";
                     }
                     echo "</li>
+                    <label onclick='deletePackage(".$value['idPackage'].",".$_GET['idOrder'].")'>Delete this package</label>
                     </ul>";
                 }
                 ?>
@@ -432,7 +514,7 @@
                         if ($value['status'] == 0) {
                             echo "Customers";
                         }elseif ($value['status'] == 1) {
-                            echo "string";
+                            echo "Delivery man";
                         }elseif ($value['status'] == 2) {
                             echo "admin";
                         }
@@ -488,16 +570,15 @@
             }
             echo "<button type='button' name='deleteUser' onclick='deleteUser(".$_GET['idUser'].")'>Delete User</button>";
         }elseif ($res[0]['status'] == 1) {
-            $req = setupCredentials()->prepare("SELECT firstName,name,telNumber,address FROM USERS WHERE idUser = :idUser");
+            $req = setupCredentials()->prepare("SELECT firstName,name,telNumber FROM USERS WHERE idUser = :idUser");
             $req->bindParam(':idUser', $_GET['idUser'], PDO::PARAM_INT);
             $req->execute();
             $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
             echo "<ul>
-                    <li>Company Name: ".$res[0]['firstName']."</li>
-                    <li>Address: ".$res[0]['name']."</li>
+                    <li>First Name: ".$res[0]['firstName']."</li>
+                    <li>Last Name: ".$res[0]['name']."</li>
                     <li>Number: ".$res[0]['telNumber']."</li>
-                    <li>Number: ".$res[0]['address']."</li>
                 </ul>";
             echo "<button type='button' name='deleteUser' onclick='deleteUser(".$_GET['idUser'].")'>Delete User</button>";
         }
@@ -707,9 +788,66 @@
 
     function deletePackage(){
 
+        $req = setupCredentials()->prepare("SELECT price,total,PACKAGES.idOrder FROM PACKAGES INNER JOIN `ORDER` on PACKAGES.idOrder = `ORDER`.idOrder WHERE idPackage= :idPackage");
+        $req->bindParam(':idPackage', $_POST['idPackage'], PDO::PARAM_INT);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        $newTotal = $res[0]['total']-$res[0]['price'];
+
+        $req = setupCredentials()->prepare("UPDATE `ORDER` SET total = :newTotal WHERE idOrder = :idOrder");
+        $req->bindParam(':newTotal',$newTotal, PDO::PARAM_STR);
+        $req->bindParam(':idOrder',$res[0]['idOrder'], PDO::PARAM_INT);
+        $req->execute();
+
         $req = setupCredentials()->prepare("DELETE FROM PACKAGES WHERE idPackage = :idPackage");
         $req->bindParam(':idPackage',$_POST['idPackage'], PDO::PARAM_INT);
         $req->execute();
+
+    }
+
+    function checkOrderPayment($idOrder){
+        $requestOrder = setupCredentials()->prepare("SELECT deliveryStatus FROM `ORDER` WHERE idOrder = :idOrder");
+        $requestOrder->bindParam(':idOrder', $idOrder, PDO::PARAM_INT);
+        $requestOrder->execute();
+        $deliveryStatus = $requestOrder->fetch();
+        return $deliveryStatus;
+    }
+
+    function addAdmin(){
+
+        $req = setupCredentials()->prepare("SELECT email FROM USERS WHERE email=?");
+        $req->execute([
+            $_POST['adminEmail'],
+        ]);
+
+        $res=$req->fetchAll(\PDO::FETCH_ASSOC);
+
+        if ($res)
+        {
+            header('Location: ./../dashBoard');
+            exit();
+        }
+
+        if (strlen($_POST['adminPassword'])<8) {
+            header('Location: ./../dashBoard');
+            exit();
+        }
+
+        if (strcmp($_POST['adminPassword'],$_POST['adminConfirmPassword'])!=0) {
+            header('Location: ./../en/dashBoard');
+            exit();
+        }
+
+        $status = 2;
+
+        $req = setupCredentials()->prepare("INSERT INTO USERS(email,password,status) VALUES (:email, :password, :status)");
+        $req->bindParam(':email', trim(htmlspecialchars($_POST['adminEmail'])), PDO::PARAM_STR);
+        $req->bindParam(':password', hash('sha256', trim(htmlspecialchars($_POST['adminPassword']))), PDO::PARAM_STR);
+        $req->bindParam(':status', $status, PDO::PARAM_INT);
+        $req->execute();
+
+        header('Location: ./../en/dashBoard');
 
     }
 

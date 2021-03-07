@@ -71,6 +71,57 @@ body *
     outline: none;
 }
 
+.vehiclesInformation{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 80%;
+    font-size: 1.75vh;
+}
+
+.vehiclesInformation>div[class="field"]{
+    margin-bottom: 1em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehiclesInformation>div[class="field"]>input, .vehiclesInformation>div[class="field"]>select{
+    border-radius: 10px;
+    border: solid 0.1em black;
+    padding: 0.5em;
+    outline: none;
+}
+
+.listVehicle{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.listVehicle>div{
+    display: flex;
+    width: 85%;
+    justify-content: space-between;
+    margin: 1em 0;
+}
+
+.listVehicle>div>button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #9ba3b3;
+    border: solid 0.1em #9ba3b3;
+    width: 25%;
+    padding: 0.2em;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 30%;
+}
+
 .profile input[type="submit"]{
     display: flex;
     justify-content: center;

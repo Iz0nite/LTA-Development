@@ -108,3 +108,9 @@ body *
     display: flex;
     justify-content: space-between;
 }
+
+.addAdminForm{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}

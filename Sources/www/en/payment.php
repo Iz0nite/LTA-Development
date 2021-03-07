@@ -22,17 +22,16 @@
         header("location: ./bill");
     }
 
-    $totalPrice = $tab[1]['total']*1.2;
-
+    $totalPrice = round($tab[1]['total']*1.2, 2);
 ?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
         <?php include("./php/head.php"); ?>
-        <link rel="stylesheet" type="text/css" href="./../css/payment.css">
         <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+        <link rel="stylesheet" type="text/css" href="./../css/payment.css">
     </head>
 
     <body class="preload">
@@ -71,8 +70,8 @@
                         return actions.order.capture().then(function(details){
                             // This function shows a transaction success message to your buyer.
                             alert('Transaction completed by ' + details.payer.name.given_name);
-                            document.getElementById("paypal-button-container").style.display = "none";
-
+                            // document.getElementById("paypal-button-container").style.display = "none";
+                            //
                             displayApprovePayment(<?=$_COOKIE['idOrder']?>);
 
                             function displayApprovePayment(idOrder){
@@ -80,12 +79,14 @@
                                 requestApprovePayment.open('GET', './../php/displayApprovePayment.php?idOrder='+idOrder);
                                 requestApprovePayment.onreadystatechange = function(){
                                     if(requestApprovePayment.readyState === 4){ // la requete est terminée
-                                        let divApprovePayment = document.getElementById('approvePayment');
-                                        divApprovePayment.innerHTML = requestApprovePayment.responseText;
+                                        // let divApprovePayment = document.getElementById('approvePayment');
+                                        // divApprovePayment.innerHTML = requestApprovePayment.responseText;
                                     }
                                 }
                                 requestApprovePayment.send();
                             }
+
+                            window.location = "approvePayment.php";
 
                         });
                     }
@@ -95,5 +96,5 @@
         </main>
         <?php include("./php/footer.php"); ?>
     </body>
-    <script type="module" src="./../js/deliveryGame.js"></script>
+    <!-- <script type="module" src="./../js/deliveryGame.js"></script> -->
 </html>

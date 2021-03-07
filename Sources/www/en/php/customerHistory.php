@@ -10,7 +10,7 @@
     $rslt = $req->fetchAll(\PDO::FETCH_ASSOC);
 ?>
 
-    <div class="customerHistory">
+    <div class="customerHistory" id="customerHistory">
         <?php foreach ($rslt as $key => $value) { ?>
             <div class="orderAndPackages" id="orderAndPackages<?=$value['idOrder']?>">
                 <div class="order">
@@ -35,6 +35,7 @@
                             <?php
                                 if ($value['deliveryStatus']==0) {
                                     ?><a href="./../config/cookieBillConfig.php?idOrder=<?=$value['idOrder']?>">Pay your delivery</a>
+                                      <label onclick="deleteOrder(<?=$value['idOrder'] ?>)">Delete this order</label>
                                     <?php
                                 }else {
                                     ?><a href="./../config/cookieBillConfig.php?idOrder=<?=$value['idOrder']?>">Invoice details</a>
