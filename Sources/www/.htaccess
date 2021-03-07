@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [NC]
+
+RewriteCond %{HTTP_HOST} ^lta-development\.fr [NC]
+RewriteRule (.*) https://www.lta-development.fr/$1 [R=301,L]
