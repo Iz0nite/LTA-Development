@@ -27,3 +27,10 @@
 
 1605010494 c:\program files (x86)\mariadb 10.5\include\mysql\mariadb_stmt.h
 
+1613571730 source:d:\projets\- esgi -\2020-2021\- projet annuel -\lta-development\application c\sendinfo\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<MYSQL/mysql.h>
+	<math.h>
+

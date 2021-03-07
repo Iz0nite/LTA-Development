@@ -27,6 +27,7 @@ t_package *addChain(t_package *package, unsigned char **data)
 	else
 	{
 		newPackage->next = package;
+		free(package);
 		return newPackage;
 	}
 }

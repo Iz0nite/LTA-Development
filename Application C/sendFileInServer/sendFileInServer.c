@@ -33,7 +33,7 @@ void sendFileInServer(char* idUser){
 
         fp = fopen("file/downloadedFile.txt", "rb"); /* open file to upload */
         if(!fp)
-        return; /* can't continue */
+            return; /* can't continue */
 
         /* to get the file size */
         if(fstat(fileno(fp), &file_info) != 0)
