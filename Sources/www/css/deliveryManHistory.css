@@ -1,0 +1,8 @@
+.deliveryManPage{
+    display: flex;
+    flex-direction: column;
+}
+
+.deliveryManPage > span{
+    align-self: flex-end;
+}

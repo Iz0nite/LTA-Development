@@ -1,0 +1,309 @@
+# USERS
+userList:
+    - "User list"
+    - "Liste utilisateur"
+    - "Lista de usuarios"
+    - "ユーザーリスト"
+
+addAdmin:
+    - "Add admin"
+    - "Ajouter un administrateur"
+    - "añadir a la administración"
+    - "アド・アドミン"
+
+payDeliveryMan:
+    - "Transfer"
+    - "Virement"
+    - "Transferencia"
+    - "トランスファー"
+
+customer:
+    - "Customer"
+    - "Client"
+    - "Cliente"
+    - "お客様"
+
+deliveryMan:
+    - "Delivery man"
+    - "Livreur"
+    - "Entregador"
+    - "配信者"
+
+admin:
+    - "Admin"
+    - "Admin"
+    - "Admin"
+    - "アドミン"
+
+showDetails:
+    - "Show details"
+    - "Afficher les détails"
+    - "Ver detalles"
+    - "詳細を見る"
+
+companyName:
+    - "Company name"
+    - "Nom de la compagnie"
+    - "Nombre de la empresa"
+    - "会社名"
+
+address:
+    - "Address"
+    - "Adresse"
+    - "Dirección"
+    - "アドレス"
+
+phoneNumber:
+    - "Phone number"
+    - "Numéro de téléphone"
+    - "Número de teléfono"
+    - "電話番号"
+
+companyOrder:
+    - "Order of this company"
+    - "Commande de cette société"
+    - "Pedir a esta empresa"
+    - "この会社への注文"
+
+id:
+    - "Id"
+    - "Id"
+    - "Id"
+    - "ID"
+
+packageNumber:
+    - "Number of packages"
+    - "Nombre de colis"
+    - "Número de paquetes"
+    - "パッケージ数"
+
+waitPayment:
+    - "Waiting for payment"
+    - "En attente du paiement"
+    - "A la espera del pago"
+    - "支払いを待つ"
+
+preparation:
+    - "In preparation"
+    - "En prépation"
+    - "En preparación"
+    - "準備中"
+
+finish:
+    - "Finish"
+    - "Terminé"
+    - "Completado"
+    - "完成"
+
+deleteUser:
+    - "Delete user"
+    - "Supprimer l'utilisateur"
+    - "Eliminar el usuario"
+    - "ユーザーの削除"
+
+# ORDER
+orderList:
+    - "Orders List"
+    - "Liste des commandes"
+    - "Lista de pedidos"
+    - "注文一覧"
+
+package:
+    - "Packages"
+    - "Colis"
+    - "Paquetes"
+    - "パッケージ"
+
+firstName:
+    - "First name"
+    - "Prénom"
+    - "Nombre"
+    - "名前"
+
+lastName:
+    - "Last name"
+    - "Nom"
+    - "Apellido"
+    - "苗字"
+
+creationDate:
+    - "Date of creation"
+    - "Date de création"
+    - "Fecha de creación"
+    - "作成日"
+
+deliveryType:
+    - "Delivery type"
+    - "Type de livraison"
+    - "Tipo de entrega"
+    - "配信の種類"
+
+standard:
+    - "Standard"
+    - "Standard"
+    - "Estándar"
+    - "スタンダード"
+
+express:
+    - "Express"
+    - "Expresse"
+    - "Expreso"
+    - "エクスプレス"
+
+total:
+    - "Total"
+    - "Total"
+    - "Total"
+    - "合計"
+
+orderPackage:
+    - "Package of this order"
+    - "Colis de cette commande"
+    - "Paquetes de esta entrega"
+    - "本配信のパッケージ"
+
+deleteOrder:
+    - "Delete order"
+    - "Supprimer cette commande"
+    - "Borrar esta entrega"
+    - "この配信を削除する"
+
+# PACKAGES
+packageList:
+    - "Packages list"
+    - "Liste des colis"
+    - "Lista de paquetes"
+    - "パッケージ一覧"
+
+status:
+    - "Status"
+    - "Statut"
+    - "estado"
+    - "ステータス"
+
+weight:
+    - "Weight"
+    - "Poids"
+    - "Peso"
+    - "重量"
+
+volume:
+    - "Volume"
+    - "Volume"
+    - "Volumen"
+    - "ボリューム"
+
+emailDest:
+    - "Receiver's email"
+    - "Mail du receveur"
+    - "Correo del receptor"
+    - "受信者からのメール"
+
+addressDest:
+    - "Receiver's address"
+    - "Adresse du receveur"
+    - "Dirección del receptor"
+    - "受信者の住所"
+
+cityDest:
+    - "Receiver City"
+    - "Ville du receveur"
+    - "Ciudad receptora"
+    - "レシーバー・シティ"
+
+depositAddress:
+    - "Address of the deposit"
+    - "Adresse du dépôt"
+    - "Dirección del depósito"
+    - "デポの住所"
+
+depositCity:
+    - "City of deposit"
+    - "Ville du dépôt"
+    - "Ciudad de depósito"
+    - "預金の都市"
+
+deletePackage:
+    - "Delete package"
+    - "Supprimer ce colis"
+    - "Eliminar este paquete"
+    - "このパッケージを削除する"
+
+userFunction:
+    - "User function: "
+    - "fonction de l'utilisateur : "
+    - "función del usuario : "
+    - "ユーザー機能 : "
+
+packageStatus:
+    - "Package status: "
+    - "Statut du paquet : "
+    - "Estado del paquete : "
+    - "パッケージの状態 : "
+
+# PLACEHOLDER
+searchUser:
+    - "Search an user"
+    - "Chercher un utilisateur"
+    - "Buscar un usuario"
+    - "ユーザーの検索"
+
+searchOrder:
+    - "Search an order"
+    - "Chercher une commande"
+    - "Buscar un pedido"
+    - "オーダーの検索"
+
+searchPackage:
+    - "Search a package"
+    - "Chercher un colis"
+    - "Buscar un paquete"
+    - "パッケージの検索"
+
+all:
+    - "all"
+    - "Tout"
+    - "Todo"
+    - "すべて"
+
+inDeposit:
+    - "At the depository"
+    - "Au dépôt"
+    - "En el depósito"
+    - "デポにて"
+
+inDelivery:
+    - "In delivery"
+    - "En cours de livraison"
+    - "En curso"
+    - "進行中"
+
+delivered:
+    - "Delivered"
+    - "Délivré"
+    - "Emitido"
+    - "発行"
+
+emailAdmin:
+    - "Mail of the admin"
+    - "Mail de l'admin"
+    - "Correo del administrador"
+    - "管理者からのメール"
+
+password:
+    - "Password"
+    - "Mot de passe"
+    - "Contraseña"
+    - "パスワード"
+
+confirmPassword:
+    - "Confirm password"
+    - "Confirmer mot de passe"
+    - "Confirme su contraseña"
+    - "パスワードの確認"
+
+send:
+    - "Send"
+    - "Envoyer"
+    - "Enviar"
+    - "送信"

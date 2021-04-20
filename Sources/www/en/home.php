@@ -1,6 +1,4 @@
 <?php
-	$title = "LTA-development";
-	
 	if(!isset($_SESSION))
 		session_start();
 	
@@ -9,6 +7,9 @@
 		header("location: ./connection");
 	}
 	
+	if($_SESSION['status'] == 2)
+		header("Location: ./dashBoard");
+	
 	include_once("./../config/config.php");
 ?>
 
@@ -16,8 +17,10 @@
 <html lang="en" dir="ltr">
 	<head>
 		<?php include("./php/head.php"); ?>
+		<title>LTA-development</title>
 		<script src="./../js/apiOneSignal/setExternalUserIdMethod.js"></script>
 		<link rel="stylesheet" type="text/css" href="/css/customerHistory.css">
+        <link rel="stylesheet" type="text/css" href="/css/deliveryManHistory.css">
 	</head>
 	
 	<body class="preload">
@@ -31,7 +34,13 @@
 		
 		<?php include("./php/header.php"); ?>
 		<main>
-			<?php include("./php/customerHistory.php"); ?>
+            <?php
+                if ($_SESSION['status'] == 0){
+                    include("./php/customerHistory.php");
+                }elseif ($_SESSION['status'] == 1){
+                    include("./php/deliveryManHistory.php");
+                }
+            ?>
 		</main>
 		<?php include("./php/footer.php"); ?>
 		<script src="../js/customerHistory.js"></script>

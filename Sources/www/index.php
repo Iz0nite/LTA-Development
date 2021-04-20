@@ -1,5 +1,5 @@
 <?php
-    header("Location: ./en/home.php");
+    header("Location: ./en/home");
 ?>
 
 <!DOCTYPE html>

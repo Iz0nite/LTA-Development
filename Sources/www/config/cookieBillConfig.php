@@ -2,6 +2,6 @@
 
     setcookie("idOrder", $_GET['idOrder'], time() + 3600, "/");
 
-    header('Location: ./../en/payment.php');
+    header('Location: ./../en/payment');
 
 ?>

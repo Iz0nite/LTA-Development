@@ -1,8 +1,35 @@
 RewriteEngine On
+RewriteBase /
 
+#AuthName "Zone restraint"
+#AuthType Basic
+#AuthUserFile "/var/www/html/en/.htpasswd"
+#Require valid-user
+
+ErrorDocument 403 https://www.lta-development.fr/en/error/403
+ErrorDocument 404 https://www.lta-development.fr/en/error/404
+ErrorDocument 500 https://www.lta-development.fr/en/error/500
+
+# Hide php extension #
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php [NC]
 
+# IP and name domain without www are redirect to name domain with www #
+RewriteCond %{HTTP_HOST} ^146\.59\.234\.166 [NC]
+RewriteRule (.*) https://www.lta-development.fr/$1 [R=301,L]
 RewriteCond %{HTTP_HOST} ^lta-development\.fr [NC]
 RewriteRule (.*) https://www.lta-development.fr/$1 [R=301,L]
+
+# root are redirect to index file #
+RewriteRule ^$ /index [L]
+
+# Hide "en" folder on the URL #
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+en/([^\s]+) [NC]
+RewriteRule ^ %1 [R=301,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (?!^en/)^(.*)$ /en/$1 [L,NC]
+
+# Redirect to 404 error if .php are mentioned on the URL #
+RewriteCond %{THE_REQUEST} "^[^ ]* .*?\.php[? ].*$"
+RewriteRule .* - [L,R=404]

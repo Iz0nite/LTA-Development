@@ -1,0 +1,151 @@
+# ALL
+email:
+    - "Email"
+    - "Adresse électronique"
+    - "Correo electrónico"
+    - "電子メール"
+
+telNumber:
+    - "Phone number"
+    - "Numéro de téléphone"
+    - "Número de teléfono"
+    - "電話番号"
+
+#CUSTOMER
+modifyCustomer:
+    - "Modify company informations"
+    - "Modifier les informations de l'entreprise"
+    - "Cambiar la información de la empresa"
+    - "会社情報の変更"
+
+address:
+    - "Address"
+    - "Adresse"
+    - "Dirección"
+    - "アドレス"
+
+companyName:
+    - "Company name"
+    - "Nom de la société"
+    - "Nombre de la empresa"
+    - "会社名"
+
+save:
+    - "Save the changes"
+    - "Sauvegarder les moifications"
+    - "Salvando las moificaciones"
+    - "モチーフの保存"
+
+# DELIVERY MAN
+ModifyDelivery:
+    - "Modify the delivery man's information"
+    - "Modifier les informations du livreur"
+    - "Modificar los datos del repartidor"
+    - "配達員の情報変更"
+
+firstName:
+    - "first name"
+    - "Prénom"
+    - "Nombre"
+    - "名前"
+
+lastName:
+    - "Last name"
+    - "Nom"
+    - "Apellido"
+    - "姓名"
+
+AffiliateDeposit:
+    - "Affiliate deposit"
+    - "Dépôt affilié"
+    - "Depósito afiliado"
+    - "提携預金"
+
+geoArea:
+    - "Geo area (km)"
+    - "Géo aréa (km)"
+    - "Área geográfica (km)"
+    - "ジオエリア (キロ)"
+
+# VEHICLE
+listVehicle:
+    - "List of your vehicles"
+    - "Liste de vos véhicules"
+    - "Lista de sus vehículos"
+    - "お持ちの車のリスト"
+
+registration:
+    - "Registration"
+    - "Imatriculation"
+    - "Registro"
+    - "登録"
+
+volumeMax:
+    - "Max volume"
+    - "Volume max"
+    - "Volumen máximo"
+    - "最大容量"
+
+deleteVehicle:
+    - "Delete this vehicle"
+    - "Supprimer ce véhicule"
+    - "Borrar este vehículo"
+    - "この車両を削除する"
+
+addVehicle:
+    - "Add"
+    - "Ajouter"
+    - "Añadir"
+    - "追加"
+
+# PASSWORD
+modifyPassword:
+    - "Modify password"
+    - "Modifier le mot de passe"
+    - "Modificar contraseña"
+    - "パスワードの変更"
+
+currentPassword:
+    - "Current password"
+    - "Mot de passe actuel"
+    - "Contraseña actual"
+    - "現在のパスワード"
+
+newPassword:
+    - "New password"
+    - "Nouveau mot de passe"
+    - "Nueva contraseña"
+    - "新しいパスワード"
+
+
+confirmNewPassword:
+    - "Confirm new password"
+    - "Confirmer le nouveau mot de passe"
+    - "Confirmar la nueva contraseña"
+    - "新パスワードの確認"
+
+# PLACEHOLDER
+plhCurrentPassword:
+    - "Your current password"
+    - "Votre mot de passe actuel"
+    - "Su contraseña actual"
+    - "現在のパスワード"
+
+plhNewPassword:
+    - "Your new password"
+    - "Votre nouveau mot de passe"
+    - "Su nueva contraseña"
+    - "新しいパスワード"
+
+
+plhConfirmNewPassword:
+    - "Confirm your new password"
+    - "Confirmer votre nouveau mot de passe"
+    - "Confirme su nueva contraseña"
+    - "新しいパスワードの確認"
+
+plhRegistration:
+    - "The registration of your vehicle"
+    - "L'imatriculation de votre véhicule"
+    - "La matrícula de su vehículo"
+    - "車両の登録について"

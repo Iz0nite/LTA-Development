@@ -369,6 +369,18 @@ function randomClientPosition(object){
 	}
 }
 
+function moveCaracters(object){
+	if(object.position.x <= -50){
+		object.position.x += 4;
+	}else if(object.position.x >= 800){
+		object.position.x -= 4;
+	}else if(object.position.z <= -2100){
+		object.position.z += 4;
+	}else if(object.position.z >= 0){
+		object.position.z -= 4;
+	}
+}
+
 function onWindowResize(){
 
 	camera.aspect = window.innerWidth / window.innerHeight;
@@ -399,6 +411,13 @@ function render(){
 		}
 	}
 
+	if(camion != undefined){
+		camion.position.set(camera.position.x, 30, camera.position.z); //move the positions
+		camion.quaternion.rotateTowards(camera.quaternion, delta * 2 );
+	}
+
+	moveCaracters(camera);
+
 	if(boxPackage != undefined){
 		if(contactHitBox(boxPackage) == true){
 			scene.remove( boxPackage );
@@ -408,18 +427,13 @@ function render(){
 			if(contactHitBox(client._root) == true){
 				container.style.display = "none";
 		        divApprovePayment.style.display = "flex";
-				instructions.innerHTML = '<span style="font-size: 2em">Félicitations, vous avez complétez le jeu !</span>';
+				instructions.innerHTML = '<span style="font-size: 2em">Félicitations, vous avez complété le jeu !</span>';
 				instructions.style.cursor = "default";
 				control.unlock();
 			}
 		}else{
 			rulesLabel.innerHTML = "<p style='font-size: 1.8em;'>Welcome in the game !</p><p style='font-size: 1.3em;'>Your first goal is to drive to the package to take it</p>";
 		}
-	}
-
-	if(camion != undefined){
-		camion.position.set(camera.position.x, 30, camera.position.z); //move the positions
-		camion.quaternion.rotateTowards(camera.quaternion, delta * 2 );
 	}
 
 	if(instructions.style.display != "none"){

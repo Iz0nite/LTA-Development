@@ -60,8 +60,7 @@
             showPackageDetails();
         }else if ($_GET['formType'] == 'addVehicle') {
             addVehicle();
-        }
-        else if ($_GET['formType'] == 'deleteVehicle') {
+        }else if ($_GET['formType'] == 'deleteVehicle') {
             deleteVehicle();
         }
     }
@@ -71,7 +70,7 @@
     {
         try
         {
-            $bdd = new PDO('mysql:dbname=LTA;host=localhost;port=3306;charset=utf8', 'ltaSuperUser', 'n73r96uxZbfC', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+            $bdd = new PDO('mysql:dbname=LTA;host=localhost;port=3306;charset=utf8', 'ltaSuperUser', 'NEMBkJ36ry9U', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
         }
         catch(Exception $e)
         {
@@ -128,12 +127,12 @@
 
         if ($res)
         {
-            header('Location: ./../en/connection');
+            header('Location: ./../connection');
             exit();
         }
 
         if (strlen($_POST['password'])<8) {
-            header('Location: ./../en/connection');
+            header('Location: ./../connection');
             exit();
         }
 
@@ -223,7 +222,7 @@
             $_SESSION['setMethod'] = 1;
 
             if ($_SESSION['status'] == 2) {
-                header('Location: ./../en/dashBoard.php');
+                header('Location: ./../en/dashBoard');
                 exit();
             }
 
@@ -306,6 +305,10 @@
     }
 
     function vehicleList(){
+        include_once("./../config/configLanguage.php");
+
+        $profileTextLoad = loadProfileText();
+
         $req = setupCredentials()->prepare("SELECT idVehicle,registration,volumeSize FROM VEHICLE WHERE idUser=:idUser");
         $req->bindParam(':idUser', trim(htmlspecialchars($_SESSION['idUser'])), PDO::PARAM_INT);
         $req->execute();
@@ -313,9 +316,9 @@
 
         foreach ($res as $key => $value) {
             echo "<div>
-                    <label>Registration: ".$value['registration']."</label>
-                    <label>Volume size: ".$value['volumeSize']."</label>
-                    <button type='button' name='deleteVehicle' onclick='deleteVehicle(".$value['idVehicle'].")'>Delete this vehicle</button>
+                    <label>" . $profileTextLoad['registration'][$_COOKIE['language']] . ": ".$value['registration']."</label>
+                    <label>" . $profileTextLoad['volumeMax'][$_COOKIE['language']] . ": ".$value['volumeSize']."m3</label>
+                    <button type='button' name='deleteVehicle' onclick='deleteVehicle(".$value['idVehicle'].")'>" . $profileTextLoad['deleteVehicle'][$_COOKIE['language']] . "</button>
                  </div>";
         }
     }
@@ -355,8 +358,6 @@
         $req->execute();
 
         vehicleList();
-
-
     }
 
 
@@ -431,40 +432,46 @@
     }
 
     function showPackage(){
-        $req = setupCredentials()->prepare("SELECT idPackage,weight,volumeSize,emailDest,Status FROM PACKAGES WHERE idOrder=?");
+        include_once("./configLanguage.php");
+
+        $customerHistoryTextLoad = loadCustomerHistoryText();
+
+        $req = setupCredentials()->prepare("SELECT idPackage,weight,volumeSize,emailDest,Status,deliveryStatus FROM PACKAGES INNER JOIN `ORDER` ON PACKAGES.idOrder = `ORDER`.idOrder WHERE PACKAGES.idOrder = ?");
         $req->execute([
             $_GET['idOrder']
         ]);
 
         $res=$req->fetchAll(\PDO::FETCH_ASSOC);
 
-        foreach ($res as $key => $value) {
+        foreach ($res as $key => $value)
+        {
             echo "<ul id = 'ulPackage".$value['idPackage']."'>
-                    <label>Package: ".$value['idPackage']."</label>
-                    <li>Weight: ".$value['weight']."</li>
-                    <li>Volume Size: ".$value['volumeSize']." m3</li>
-                    <li>Addresse: ".$value['emailDest']."</li>
-                    <li>Status: ";
-                    if ($value['Status']==0){
-                         echo "in deposit";
-                    } elseif ($value['Status']==1) {
-                         echo "in delivery";
-                    }elseif ($value['Status']=2) {
-                         echo "delivered";
-                    }
-                    echo "</li>
-                    <label onclick='deletePackage(".$value['idPackage'].",".$_GET['idOrder'].")'>Delete this package</label>
-                    </ul>";
-                }
-                ?>
-                <div id="orderButtonClose<?=$_GET['idOrder']?>" class="buttonPackages" onclick="showPackage(<?=$_GET['idOrder']?>)">
-                    <a>Hide content</a>
-                    <svg width="18" height="2" viewBox="0 0 18 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 1H17H1" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <?php
-            }
+                <label>" . $customerHistoryTextLoad['package'][$_COOKIE['language']] . ": ".$value['idPackage']."</label>
+                <li>" . $customerHistoryTextLoad['weight'][$_COOKIE['language']] . ": ".$value['weight']."g</li>
+                <li>" . $customerHistoryTextLoad['volume'][$_COOKIE['language']] . ": ".$value['volumeSize']." cm3</li>
+                <li>" . $customerHistoryTextLoad['email'][$_COOKIE['language']] . ": ".$value['emailDest']."</li>
+                <li>" . $customerHistoryTextLoad['status'][$_COOKIE['language']] . ": ";
+            if ($value['Status']==0)
+                 echo $customerHistoryTextLoad['inDeposit'][$_COOKIE['language']];
+            elseif ($value['Status']==1)
+                 echo $customerHistoryTextLoad['inDelivery'][$_COOKIE['language']];
+            elseif ($value['Status']=2)
+                 echo $customerHistoryTextLoad['delivered'][$_COOKIE['language']];
+            echo "</li>";
+
+            if ($value["deliveryStatus"] == 0)
+                echo "<label onclick='deletePackage(".$value['idPackage'].",".$_GET['idOrder'].")'>" . $customerHistoryTextLoad['deletePackage'][$_COOKIE['language']] . "</label>";
+            echo "</ul>";
+        }
+        ?>
+        <div id="orderButtonClose<?=$_GET['idOrder']?>" class="buttonPackages" onclick="showPackage(<?=$_GET['idOrder']?>)">
+            <a><?= $customerHistoryTextLoad['hideContent'][$_COOKIE['language']] ?></a>
+            <svg width="18" height="2" viewBox="0 0 18 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 1H17H1" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <?php
+    }
 
     function billInformation($idOrder){
         $requestPackages = setupCredentials()->prepare("SELECT * FROM PACKAGES WHERE idOrder = :idOrder");
@@ -487,14 +494,17 @@
     }
 
     function usersList(){
+        include_once("./../config/configLanguage.php");
+
+        $dashboardTextLoad = loadDashboardText();
 
         $query = "SELECT idUser,email,status from USERS";
 
-        if (isset($_GET['userSelect'])) {
+        if (isset($_GET['userSelect'])){
             $query .= " WHERE status=".$_GET['userSelect'];
         }
 
-        if (isset($_GET['searchUser'])) {
+        if (isset($_GET['searchUser'])){
             if (isset($_GET['userSelect'])) {
                 $query .= ' AND email LIKE "'.$_GET['searchUser'].'%"';
             }else {
@@ -506,22 +516,22 @@
         $req->execute();
         $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($res as $key => $value) {
+        foreach ($res as $key => $value){
             echo "<div class='user'>
                     <div class='mailAndType'>
                         <label>".$value['email']."</label>
                         <label>";
                         if ($value['status'] == 0) {
-                            echo "Customers";
+                            echo $dashboardTextLoad['customer'][$_COOKIE['language']];
                         }elseif ($value['status'] == 1) {
-                            echo "Delivery man";
+                            echo $dashboardTextLoad['deliveryMan'][$_COOKIE['language']];
                         }elseif ($value['status'] == 2) {
-                            echo "admin";
+                            echo $dashboardTextLoad['admin'][$_COOKIE['language']];
                         }
                 echo    "</label>";
                         ?>
-                        <div  class="userButtonDetails" onclick="showUserDetails(<?=$value['idUser']?>)">
-                            <a>Show details</a>
+                        <div class="userButtonDetails" onclick="showUserDetails(<?=$value['idUser']?>)">
+                            <a><?= $dashboardTextLoad['showDetails'][$_COOKIE['language']]; ?></a>
                             <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9.5 1V9M9.5 17V9M9.5 9H17.5H1.5" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -534,6 +544,9 @@
     }
 
     function showUserDetails(){
+        include_once("./../config/configLanguage.php");
+
+        $dashboardTextLoad = loadDashboardText();
 
         $req = setupCredentials()->prepare("SELECT status FROM USERS WHERE idUser = :idUser");
         $req->bindParam(':idUser', $_GET['idUser'], PDO::PARAM_INT);
@@ -547,28 +560,28 @@
             $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
             echo "<ul>
-                    <li>Company Name: ".$res[0]['companyName']."</li>
-                    <li>Address: ".$res[0]['address']."</li>
-                    <li>Number: ".$res[0]['telNumber']."</li>
+                    <li>" . $dashboardTextLoad['companyName'][$_COOKIE['language']] . ": ".$res[0]['companyName']."</li>
+                    <li>" . $dashboardTextLoad['address'][$_COOKIE['language']] . ": ".$res[0]['address']."</li>
+                    <li>" . $dashboardTextLoad['phoneNumber'][$_COOKIE['language']] . ": ".$res[0]['telNumber']."</li>
                 </ul>";
 
-            echo "<label>Order of this company:</label>";
+            echo "<label>" . $dashboardTextLoad['companyOrder'][$_COOKIE['language']] . ":</label>";
             foreach ($res as $key => $value) {
                 echo "<div class = 'orderUser'>";
-                echo "<label>id: ".$value['idOrder']."</label>";
-                echo "<label>Number Packages: ".$value['(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder)']."</label>";
+                echo "<label>" . $dashboardTextLoad['id'][$_COOKIE['language']] . ": ".$value['idOrder']."</label>";
+                echo "<label>" . $dashboardTextLoad['packageNumber'][$_COOKIE['language']] . ": ".$value['(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder)']."</label>";
                 echo "<label status=".$value['deliveryStatus'].">";
                 if ($value['deliveryStatus'] == 0) {
-                    echo "Waiting for payment";
+                    echo $dashboardTextLoad['waitPayment'][$_COOKIE['language']];
                 }else if($value['deliveryStatus'] == 1) {
-                    echo "In preparation";
+                    echo $dashboardTextLoad['preparation'][$_COOKIE['language']];
                 }else if($value['deliveryStatus'] == 2) {
-                    echo "Finish";
+                    echo $dashboardTextLoad['finish'][$_COOKIE['language']];
                 }
                 echo "</label>";
                 echo "</div>";
             }
-            echo "<button type='button' name='deleteUser' onclick='deleteUser(".$_GET['idUser'].")'>Delete User</button>";
+            echo "<button type='button' name='deleteUser' onclick='deleteUser(".$_GET['idUser'].")'>" . $dashboardTextLoad['deleteUser'][$_COOKIE['language']] . "</button>";
         }elseif ($res[0]['status'] == 1) {
             $req = setupCredentials()->prepare("SELECT firstName,name,telNumber FROM USERS WHERE idUser = :idUser");
             $req->bindParam(':idUser', $_GET['idUser'], PDO::PARAM_INT);
@@ -576,11 +589,11 @@
             $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
             echo "<ul>
-                    <li>First Name: ".$res[0]['firstName']."</li>
-                    <li>Last Name: ".$res[0]['name']."</li>
-                    <li>Number: ".$res[0]['telNumber']."</li>
+                    <li>" . $dashboardTextLoad['firstName'][$_COOKIE['language']] . ": ".$res[0]['firstName']."</li>
+                    <li>" . $dashboardTextLoad['lastName'][$_COOKIE['language']] . ": ".$res[0]['name']."</li>
+                    <li>" . $dashboardTextLoad['phoneNumber'][$_COOKIE['language']] . ": ".$res[0]['telNumber']."</li>
                 </ul>";
-            echo "<button type='button' name='deleteUser' onclick='deleteUser(".$_GET['idUser'].")'>Delete User</button>";
+            echo "<button type='button' name='deleteUser' onclick='deleteUser(".$_GET['idUser'].")'>" . $dashboardTextLoad['deleteUser'][$_COOKIE['language']] . "</button>";
         }
     }
 
@@ -616,6 +629,10 @@
     }
 
     function ordersList(){
+        include_once("./../config/configLanguage.php");
+
+        $dashboardTextLoad = loadDashboardText();
+
         $query = "SELECT idOrder,deliveryStatus,USERS.email,(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder) FROM `ORDER` INNER JOIN USERS on `ORDER`.idUser = USERS.idUser";
 
         if (isset($_GET['orderSelect'])) {
@@ -640,18 +657,18 @@
                         <label>".$value['idOrder']."</label>
                         <label>";
                         if ($value['deliveryStatus'] == 0) {
-                            echo "Waiting for Payment";
+                            echo $dashboardTextLoad['waitPayment'][$_COOKIE['language']];
                         }elseif ($value['deliveryStatus'] == 1) {
-                            echo "In preparation";
+                            echo $dashboardTextLoad['preparation'][$_COOKIE['language']];
                         }elseif ($value['deliveryStatus'] == 2) {
-                            echo "Finish";
+                            echo $dashboardTextLoad['finish'][$_COOKIE['language']];
                         }
                 echo    "</label>";
                 echo    "<label>".$value['email']."</label>
-                         <label>Packages: ".$value['(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder)']."</label>";
+                         <label>" . $dashboardTextLoad['package'][$_COOKIE['language']] . ": ".$value['(SELECT COUNT(*) FROM PACKAGES WHERE idOrder=ORDER.idOrder)']."</label>";
                         ?>
                         <div  class="orderButtonDetails" onclick="showOrderDetails(<?=$value['idOrder']?>)">
-                            <a>Show details</a>
+                            <a><?= $dashboardTextLoad['showDetails'][$_COOKIE['language']]; ?></a>
                             <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9.5 1V9M9.5 17V9M9.5 9H17.5H1.5" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -664,34 +681,37 @@
     }
 
     function showOrderDetails(){
+        include_once("./../config/configLanguage.php");
+
+        $dashboardTextLoad = loadDashboardText();
 
         $req = setupCredentials()->prepare("SELECT deliveryType,total,creationDate,PACKAGES.idPackage FROM `ORDER` INNER JOIN PACKAGES on `ORDER`.idOrder = PACKAGES.idOrder WHERE `ORDER`.idOrder = :idOrder");
         $req->bindParam(':idOrder', $_GET['idOrder'], PDO::PARAM_INT);
         $req->execute();
         $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
-        $input = $value['creationDate'];
+        $input = $res['creationDate'];
         $date = strtotime($input);
 
         echo "<ul>
-                <li>Creation date: ".date('d/m/Y', $date)."</li>
-                <li>Delivery type: ";
+                <li>" . $dashboardTextLoad['creationDate'][$_COOKIE['language']] . ": ".date('d/m/Y', $date)."</li>
+                <li>" . $dashboardTextLoad['deliveryType'][$_COOKIE['language']] . ": ";
                 if ($res[0]['deliveryType'] == 0) {
-                    echo "Standard";
+                    echo $dashboardTextLoad['standard'][$_COOKIE['language']];
                 }else if($res[0]['deliveryType'] == 1){
-                    echo "Express";
+                    echo $dashboardTextLoad['express'][$_COOKIE['language']];
                 }
                 echo "</li>
-                <li>Total: ".$res[0]['total']."</li>
+                <li>" . $dashboardTextLoad['total'][$_COOKIE['language']] . ": ".$res[0]['total']."</li>
             </ul>";
 
-        echo "<label>Package of this Order: ";
+        echo "<label>" . $dashboardTextLoad['orderPackage'][$_COOKIE['language']] . ": ";
         foreach ($res as $key => $value) {
             echo $value['idPackage']." ";
         }
 
         echo "</label>";
-        echo "<button type='button' name='deleteOrder' onclick='deleteOrder(".$_GET['idOrder'].")'>Delete Order</button>";
+        echo "<button type='button' name='deleteOrder' onclick='deleteOrder(".$_GET['idOrder'].")'>" . $dashboardTextLoad['deleteOrder'][$_COOKIE['language']] . "</button>";
     }
 
     function deleteOrder(){
@@ -707,6 +727,9 @@
     }
 
     function packagesList(){
+        include_once("./../config/configLanguage.php");
+
+        $dashboardTextLoad = loadDashboardText();
         $query = "SELECT idPackage,PACKAGES.status,USERS.companyName,PACKAGES.idOrder FROM PACKAGES INNER JOIN `ORDER` on `ORDER`.idOrder = PACKAGES.idOrder INNER JOIN USERS on `ORDER`.idUser = USERS.idUser";
 
         if (isset($_GET['packageSelect'])) {
@@ -731,20 +754,20 @@
                         <label>".$value['idPackage']."</label>
                         <label>".$value['companyName']."</label>
                         <label>".$value['idOrder']."</label>
-                        <label>status: ";
+                        <label>" . $dashboardTextLoad['status'][$_COOKIE['language']] . ": ";
 
                         if ($value['status'] == 0) {
-                            echo "In deposit";
+                            echo $dashboardTextLoad['inDeposit'][$_COOKIE['language']];
                         }elseif ($value['status'] == 1) {
-                            echo "In delivery";
+                            echo $dashboardTextLoad['inDelivery'][$_COOKIE['language']];
                         }elseif ($value['status'] == 2) {
-                            echo "Delivered";
+                            echo $dashboardTextLoad['delivered'][$_COOKIE['language']];
                         }
 
                         echo "</label>";
                         ?>
                         <div  class="packageButtonDetails" onclick="showPackageDetails(<?=$value['idPackage']?>)">
-                            <a>Show details</a>
+                            <a><?= $dashboardTextLoad['showDetails'][$_COOKIE['language']] ?></a>
                             <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9.5 1V9M9.5 17V9M9.5 9H17.5H1.5" stroke="#394967" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -758,8 +781,9 @@
     }
 
     function showPackageDetails(){
+        include_once("./../config/configLanguage.php");
 
-        echo $_GET['idPackage'];
+        $dashboardTextLoad = loadDashboardText();
 
         $req = setupCredentials()->prepare("SELECT weight,volumeSize,emailDest,address,city FROM PACKAGES WHERE idPackage=:idPackage");
         $req->bindParam(':idPackage', $_GET['idPackage'], PDO::PARAM_INT);
@@ -772,18 +796,16 @@
         $res2 = $req->fetchAll(PDO::FETCH_ASSOC);
 
         echo "<ul>
-                <li>Weight: ".$res[0]['weight']." kg</li>
-                <li>Volume Size: ".$res[0]['volumeSize']."</li>
-                <li>Receiver mail: ".$res[0]['emailDest']."</li>
-                <li>Receiver address: ".$res[0]['address']."</li>
-                <li>Receiver city: ".$res[0]['city']."</li>
-                <li>Deposit address: ".$res2[0]['address']."</li>
-                <li>Deposit city: ".$res2[0]['city']."</li>
+                <li>" . $dashboardTextLoad['weight'][$_COOKIE['language']] . ": ".$res[0]['weight']." kg</li>
+                <li>" . $dashboardTextLoad['volume'][$_COOKIE['language']] . ": ".$res[0]['volumeSize']."</li>
+                <li>" . $dashboardTextLoad['emailDest'][$_COOKIE['language']] . ": ".$res[0]['emailDest']."</li>
+                <li>" . $dashboardTextLoad['addressDest'][$_COOKIE['language']] . ": ".$res[0]['address']."</li>
+                <li>" . $dashboardTextLoad['cityDest'][$_COOKIE['language']] . ": ".$res[0]['city']."</li>
+                <li>" . $dashboardTextLoad['depositAddress'][$_COOKIE['language']] . ": ".$res2[0]['address']."</li>
+                <li>" . $dashboardTextLoad['depositCity'][$_COOKIE['language']] . ": ".$res2[0]['city']."</li>
             </ul>";
 
-
-        echo "<button type='button' name='deletePackage' onclick='deletePackage(".$_GET['idPackage'].")'>Delete Package</button>";
-
+        echo "<button type='button' name='deletePackage' onclick='deletePackage(".$_GET['idPackage'].")'>" . $dashboardTextLoad['deletePackage'][$_COOKIE['language']] . "</button>";
     }
 
     function deletePackage(){
@@ -852,4 +874,91 @@
     }
 
 
+
+    function getPackage($idArray)
+    {
+        $packageArray = [];
+
+        for ($i = 0; $i < count($idArray); $i++)
+        {
+            $query = "SELECT address, postalCode, city FROM PACKAGES WHERE idPackage = ?";
+
+            $req = setupCredentials()->prepare($query);
+            $req->execute([$idArray[$i]]);
+
+            array_push($packageArray, $req->fetch(\PDO::FETCH_ASSOC));
+        }
+
+        return $packageArray;
+    }
+
+
+
+    function buildUrlApi($packageArray)
+    {
+        $iPackageArray = 1;
+        $duplicatePackageArray = [$packageArray[0]['address']];
+        // echo $iPackageArray . "=>" . $packageArray[0]['address'] . "<br />";
+
+        $url = "https://maps.googleapis.com/maps/api/directions/json?origin=" . $packageArray[0]['address'] . ",+" . $packageArray[0]['postalCode'] . "+" . $packageArray[0]['city'];
+
+        while(in_array($packageArray[$iPackageArray]['address'], $duplicatePackageArray))
+            $iPackageArray++;
+
+        $url .= "&destination=" . $packageArray[$iPackageArray]['address'] . ",+" . $packageArray[$iPackageArray]['postalCode'] . "+" . $packageArray[$iPackageArray]['city'];
+        $duplicatePackageArray = [$packageArray[$iPackageArray]['address']];
+        // echo $iPackageArray . "=>" . $packageArray[$iPackageArray]['address'] . "<br />";
+        $iPackageArray++;
+
+        if(count($packageArray) > 2 && $iPackageArray < count($packageArray))
+        {
+            $url .= "&waypoints=optimize:true|";
+            // echo "i =>" . $iPackageArray . "<br />";
+            // echo "count =>" . (count($packageArray) - 1) . "<br />";
+            for ($i = $iPackageArray; $i < count($packageArray) - 1; $i++)
+            {
+                if (!in_array($packageArray[$i]['address'], $duplicatePackageArray))
+                {
+                    $url .= $packageArray[$i]['address'] . ",+" . $packageArray[$i]['postalCode'] . "+" . $packageArray[$i]['city'] . "|";
+                    $duplicatePackageArray = [$packageArray[$i]['address']];
+                    // echo $iPackageArray . "=>" . $packageArray[$i]['address'] . "<br />";
+                }
+            }
+
+            if (!in_array($packageArray[count($packageArray) - 1]['address'], $duplicatePackageArray))
+            {
+                $url .= $packageArray[count($packageArray) - 1]['address'] . ",+" . $packageArray[count($packageArray) - 1]['postalCode'] . "+" . $packageArray[count($packageArray) - 1]['city'];
+                // echo count($packageArray) - 1 . "=>" . $packageArray[count($packageArray) - 1]['address'] . "<br />";
+            }
+        }
+
+        $url .= '&units=metric&key=AIzaSyCGojCmtnMT6-hBz-vUJ6eRrfIX_cjpERE';
+        $url = str_replace(' ', '+', $url);
+
+        return $url;
+    }
+
+
+
+    function getPaymentList()
+    {
+        $req = setupCredentials()->prepare("SELECT idRemuneration, firstName, name, amountTotal FROM USERS INNER JOIN REMUNERATION
+            ON USERS.idUser = REMUNERATION.idUser WHERE isPayed = 0");
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        return $res;
+    }
+
+
+
+    function changeStatePayment($idRemuneration)
+    {
+        $req = setupCredentials()->prepare("UPDATE REMUNERATION SET isPayed = 1 WHERE idRemuneration = :idRemuneration");
+        $req->execute([
+            'idRemuneration' => $idRemuneration
+        ]);
+
+        return;
+    }
 ?>

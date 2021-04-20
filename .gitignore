@@ -26,3 +26,7 @@ Sources/Application C/bin/Debug/LTA-Development.exe
 Sources/Application C/bin/Debug/LTA-Development.cbp
 
 Sources/Application C/.idea/
+
+Sources/www/sendPaymentTestconfigPayPal.php
+
+Sources/www/config/paypalTokenCustomer.php

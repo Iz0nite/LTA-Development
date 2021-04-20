@@ -1,5 +1,4 @@
 <?php
-    $title = "LTA-development - Payment";
     require("./../config/config.php");
 
     if(!isset($_SESSION))
@@ -26,6 +25,7 @@
 <html lang="en" dir="ltr">
     <head>
         <?php include("./php/head.php"); ?>
+		<title>LTA-development - Payment</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="./../js/three.js-master/examples/main.css">

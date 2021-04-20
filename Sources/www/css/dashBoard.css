@@ -1,116 +1,231 @@
-@font-face
-{
-    font-family: "Montserrat";
-    src: url("./../font/montserrat/montserrat-v15-latin-regular.woff") format("woff");
+.usersListModule, .orderListModule, .packageListModule, .addAdminModule, .transferModule{
+	display: none!important;
 }
 
-body
-{
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+#userList:checked ~ .usersListModule,
+#orderList:checked ~ .orderListModule,
+#packagesList:checked ~ .packageListModule,
+#addAdmin:checked ~ .addAdminModule,
+#transfer:checked ~ .transferModule{
+	display: flex!important;
 }
 
-body *
-{
-    font-family: "Montserrat", sans-serif;
-}
-
-/***** NO TRANSITION IN RELOAD PAGE *****/
-.preload * {
-    transition: none !important;
-}
-
-.usersListModule{
-    display: flex;
-    flex-direction: column;
-    width: 40%;
-    max-height: 400px;
-}
-
-.usersList{
-    overflow-y: scroll;
-}
-
-.usersListOption{
-    display: flex;
-    justify-content: space-between;
+input[type="radio"]{
+	display: none;
 }
 
 .mailAndType{
-    display: flex;
-    justify-content: space-between;
-}
-
-.moreInfoUser{
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	justify-content: space-between;
 }
 
 .orderUser{
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
-.orderUser>label[status="0"]{
-    color: red;
+.orderUser > label[status="0"]{
+	color: red;
 }
 
-.orderUser>label[status="1"]{
-    color: yellow;
+.orderUser > label[status="1"]{
+	color: yellow;
 }
 
-.orderUser>label[status="2"]{
-    color: green;
+.orderUser > label[status="2"]{
+	color: green;
 }
 
-.orderListModule{
-    display: flex;
-    flex-direction: column;
-    width: 40%;
-    max-height: 400px;
+.usersListModule, .orderListModule, .packageListModule{
+	max-height: 75vh;
+	overflow-y: auto;
 }
 
-.ordersList{
-    overflow-y: scroll;
+.ordersListOption, .packagesListOption{
+	display: flex;
+	justify-content: space-between;
 }
 
-.ordersListOption{
-    display: flex;
-    justify-content: space-between;
+.basicOrderInfo, .basicPackageInfo{
+	display: flex;
+	justify-content: space-between;
 }
 
-.basicOrderInfo{
-    display: flex;
-    justify-content: space-between;
+.dashboardContainer{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	margin: 2% 15%;
 }
 
-.packageListModule{
-    display: flex;
-    flex-direction: column;
-    width: 40%;
-    max-height: 400px;
+.dashboardTabs{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 100%;
+	height: 3.5vw;
+	color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background-color: #394967;
+	border-bottom: solid 1px darkgray;
+}
+.dashboardTabs>label{
+	cursor: pointer;
 }
 
-.packagesList{
-    overflow-y: scroll;
+.dashboardModuleContainer{
+	width: 100%;
 }
 
+.usersListModule,
+.orderListModule,
+.packageListModule,
+.addAdminModule{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.usersListOption,
+.ordersListOption,
 .packagesListOption{
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1% 2%;
+	background-color: #394967;
 }
 
-.basicPackageInfo{
-    display: flex;
-    justify-content: space-between;
+.usersListOption>div,
+.ordersListOption>div,
+.packagesListOption>div{
+	color: white;
+	font-size: 0.8em;
+	width: 100%;
+}
+
+.usersListModule select, .usersListModule input,
+.ordersListOption select, .ordersListOption input,
+.packagesListOption select, .packagesListOption input{
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 0.5%;
+}
+
+.usersList>div>.mailAndType,
+.ordersList>div>.basicOrderInfo,
+.packagesList>div>.basicPackageInfo{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #F0F5F8;
+	border-bottom: solid 1px white;
+	padding: 1.5vw;
+}
+
+.usersList>div>.mailAndType>label:nth-child(1)
+{
+	width: 25%;
+}
+
+.usersList>div>.mailAndType>label:nth-child(2)
+{
+	width: 60%;
+	text-align: center;
+}
+
+.usersList>div>.mailAndType>div
+{
+	width: 10%;
+}
+
+.userButtonDetails,
+.orderButtonDetails,
+.packageButtonDetails{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 10vw;
+	padding: 8px;
+	cursor: pointer;
+	border: solid 1px #394967;
+	border-radius: 10px;
+}
+
+.moreInfoUser,
+.moreInfoOrder,
+.moreInfoPackage{
+	display: flex;
+	justify-content: space-around;
+	align-items: flex-start;
+	flex-direction: column;
+	padding: 0 10%;
+}
+.moreInfoUser>ul,
+.moreInfoOrder>ul,
+.moreInfoPackage>ul{
+	list-style: none;
+	padding: 0;
+	width: 100%;
+}
+.moreInfoUser>ul>li, .moreInfoUser>label,
+.moreInfoOrder>ul>li, .moreInfoOrder>label,
+.moreInfoPackage>ul>li, .moreInfoPackage>label{
+	padding: 1% 3%;
+}
+.moreInfoUser>button,
+.moreInfoOrder>button,
+.moreInfoPackage>button{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: black;
+	background-color: #9ba3b3;
+	border: solid 0.1em #9ba3b3;
+	width: 10em;
+	padding: 0.2em;
+	text-decoration: none;
+	border-radius: 10px;
+	cursor: pointer;
+	font-size: 1em;
+	outline: none;
+	margin: 2% 40%;
+}
+.moreInfoUser>button:hover,
+.moreInfoOrder>button:hover,
+.moreInfoPackage>button:hover{
+	color: white;
+	border: solid 0.1em black;
+	transition: .3s ease;
 }
 
 .addAdminForm{
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
+	width: 100%;
+	min-height: 22vh;
+	padding: 2.5% 0;
+}
+.addAdminForm>input{
+	width: 50%;
+	border-radius: 10px;
+	border: solid 1px #394967;
+	padding: 1%;
+}
+.addAdminForm>input[type="submit"]{
+	width: 12.5vw;
+	background-color: #394967;
+	color: white;
+	cursor: pointer;
+	border: solid 1px #394967;
+}
+.addAdminForm>input[type="submit"]:hover{
+	color: black;
+	background-color: white;
+	transition: 0.5s ease;
 }

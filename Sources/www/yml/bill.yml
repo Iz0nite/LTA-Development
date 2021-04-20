@@ -1,0 +1,127 @@
+invoice:
+    - "Invoice n° "
+    - "Facture n° "
+    - "Factura n° "
+    - "インボイス No. "
+
+from:
+    - "From"
+    - "De"
+    - "Desde"
+    - "より"
+
+to:
+    - "To"
+    - "À"
+    - "A"
+    - "には"
+
+type:
+    - "Type"
+    - "Type"
+    - "Tipo"
+    - "タイプ"
+
+label:
+    - "Label"
+    - "Étiquette"
+    - "Etiqueta"
+    - "ラベル"
+
+quantity:
+    - "Quantity"
+    - "Quantité"
+    - "Cantidad"
+    - "数量"
+
+price:
+    - "Price HT"
+    - "Prix HT"
+    - "Precio"
+    #- "価格"
+    - "付加価値税を除く価格"
+
+amount:
+    - "Amount TTC"
+    - "Montant TTC"
+    - "Cantidad TTC"
+    - "消費税を含む金額"
+
+lblType:
+    - "Delivery"
+    - "Livraison"
+    - "Entrega"
+    - "デリバリー"
+
+lblLabel:
+    - "Package n°"
+    - "Colis n°"
+    - "Paquete n°"
+    - "パッケージNo."
+
+subtotal:
+    - "Total HT"
+    - "Total HT"
+    - "Total HT"
+    - "税引前合計"
+
+
+taxRate:
+    - "VAT rate"
+    - "Taux TVA"
+    - "Tipo de IVA"
+    - "付加価値税率"
+
+totalTax:
+    - "VAT"
+    - "TVA"
+    - "IVA"
+    - "付加価値税"
+
+total:
+    - "Total"
+    - "Total"
+    - "Total"
+    - "合計"
+
+terms:
+    - "Terms"
+    - "Conditions"
+    - "Términos"
+    - "条件"
+
+paymentType:
+    - "Type of payment"
+    - "Type de paiement"
+    - "Tipo de pago"
+    - "支払いの種類"
+
+creditCard:
+    - "Credit card"
+    - "Carte de crédit"
+    - "Tarjeta de crédito"
+    - "クレジットカード"
+
+bankTransfert:
+    - "Bank transfert"
+    - "Transfert bancaire"
+    - "Transferencia bancaria"
+    - "銀行振り込み"
+
+paymentDate:
+    - "Payment due date"
+    - "Date d'échéance du paiement"
+    - "Fecha de vencimiento del pago"
+    - "支払い期限"
+
+paymentDeadline:
+    - "days end of month"
+    - "jours fin de mois"
+    - "días de fin de mes"
+    - "日 月 末"
+
+download:
+    - "Download"
+    - "Télécharger"
+    - "Descargar"
+    - "ダウンロード"

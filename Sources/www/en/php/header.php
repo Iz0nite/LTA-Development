@@ -1,31 +1,40 @@
-<header id="header">
-    <nav>
-        <ul>
-            <li><a href="./home"><img src="./../../img/Logo_Fond_Blanc.svg" style="width: 150px"></a></li>
-            <div class="headerLinks">
-                <?php if (isset($_SESSION['idUser']) && $_SESSION['status'] != 2) { ?>
-                    <li><a href="./home">Home</a></li>
-                    <li><a href="./approvePayment">onSaitPasTrop</a></li>
-                    <li><a href="./php/testSendNotif">Notif</a></li>
-                <?php } ?>
-                <?php if(isset($_SESSION['idUser'])):?>
-                    <?php if ($_SESSION['status'] != 2) { ?>
-                        <li><a href="profile">Profile</a></li>
-                    <?php } ?>
-                    <li>
-                        <form action="./../../config/config.php" method="POST">
-                            <input type="hidden" name="formType" value="logout">
-                            <button class="logout" type="submit" name="logout">Log Out</button>
-                        </form>
-                    </li>
-                <?php else: ?>
-                    <div id="inscriptionconnexion">
-                        <li><a href="./home" id="textHeader12">Sign Up</a></li>
-                        <li id="barHeader">|</li>
-                        <li><a href="./home" id="textHeader12">Log In</a></li>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </ul>
-    </nav>
+<?php
+	include_once("./../config/configLanguage.php");
+	
+	isSetCookieLanguage();
+	$headerTextLoad = loadHeaderText();
+?>
+
+<header>
+	<div class="divHeader">
+		<a href="./home"><img src="./../../img/Logo_Fond_Blanc.svg" class="logo" alt="LogoQuickBaluchon"></a>
+		<?php if(isset($_SESSION['idUser']) && $_SESSION['status'] != 2){ ?>
+			<div>
+				<a href="./home"><?=$headerTextLoad['home'][$_COOKIE['language']];?></a>
+				<a href="./approvePayment">onSaitPasTrop</a>
+				<a href="./test">TEST</a>
+				<a href="./php/sendNotif">Notif</a>
+				<a href="profile"><?=$headerTextLoad['profil'][$_COOKIE['language']];?></a>
+				<div>
+					<form action="./../../config/config" method="POST" style="width: auto;">
+						<input type="hidden" name="formType" value="logout">
+						<button class="logout" type="submit" name="logout"><?=$headerTextLoad['logout'][$_COOKIE['language']];?></button>
+					</form>
+				</div>
+			</div>
+		<?php }elseif($_SESSION['status'] == 2){ ?>
+			<div class="logoutButton">
+				<form action="./../../config/config" method="POST">
+					<input type="hidden" name="formType" value="logout">
+					<button class="logout" type="submit" name="logout"><?=$headerTextLoad['logout'][$_COOKIE['language']];?></button>
+				</form>
+			</div>
+		<?php }else{ ?>
+			<div id="inscriptionConnexion">
+				<div><label for="signForm"><?=$headerTextLoad['signUp'][$_COOKIE['language']];?></label></div>
+				<div id="barHeader">|</div>
+				<div><label for="logForm"><?=$headerTextLoad['logIn'][$_COOKIE['language']];?></label></div>
+			</div>
+		<?php } ?>
+	</div>
 </header>

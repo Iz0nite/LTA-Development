@@ -1,0 +1,29 @@
+signUp:
+    - "Sign Up"
+    - "Inscription"
+    - "Registro"
+    - "登録"
+
+logIn:
+    - "Log In"
+    - "Connexion"
+    - "Conexión"
+    - "接続方法"
+
+home:
+    - "Home"
+    - "Accueil"
+    - "Inicio"
+    - "ホーム"
+
+profil:
+    - "profile"
+    - "profil"
+    - "perfil"
+    - "プロフィール"
+
+logout:
+    - "Logout"
+    - "Déconnexion"
+    - "Cierre de sesión"
+    - "ログアウト"

@@ -30,7 +30,7 @@ function showPackage(idOrder){
         }
 
         const request = new XMLHttpRequest();
-        request.open('GET', '../config/config.php?formType=showPackage&idOrder='+idOrder);
+        request.open('GET', '../config/config?formType=showPackage&idOrder='+idOrder);
         request.onreadystatechange = function(){
             if(request.readyState === 4){ // la requete est terminée
                 divPackages.innerHTML = request.responseText;
@@ -76,4 +76,37 @@ function showPackage(idOrder){
 
 
     }
+
+
+}
+
+function deleteOrder(idOrder){
+    const request = new XMLHttpRequest();
+    request.open('POST','../config/config',true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.onreadystatechange = function(){
+        if(request.readyState === 4){
+            divOrderAndPackages = document.getElementById("orderAndPackages"+idOrder);
+            divCustomerHistory = document.getElementById("customerHistory");
+            divCustomerHistory.removeChild(divOrderAndPackages);
+
+        }
+    }
+    request.send("formType=deleteOrder&idOrder="+idOrder);
+}
+
+function deletePackage(idPackage,idOrder){
+    const request = new XMLHttpRequest();
+    request.open('POST','../config/config',true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.onreadystatechange = function(){
+        if(request.readyState === 4){
+            divPackages = document.getElementById('packages'+idOrder);
+            console.log('packages'+idPackage);
+            divUlPackage = document.getElementById('ulPackage'+idPackage);
+            console.log('ulPackage'+idPackage);
+            divPackages.removeChild(divUlPackage);
+        }
+    }
+    request.send("formType=deletePackage&idPackage="+idPackage);
 }

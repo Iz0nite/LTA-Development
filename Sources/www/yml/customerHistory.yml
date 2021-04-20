@@ -1,0 +1,132 @@
+invoice:
+    - "Invoice"
+    - "Facture"
+    - "Factura"
+    - "インボイス"
+
+order:
+    - "Order"
+    - "Commande"
+    - "Pedir"
+    - "オーダー"
+
+packageNumber:
+    - "Number of packages"
+    - "Nombre de colis"
+    - "Recuento de paquetes"
+    - "パッケージ数"
+
+deliveryType:
+    - "Type of delivery"
+    - "Type de livraison"
+    - "Tipo de entrega"
+    - "配信の種類"
+
+standard:
+    - "Standard"
+    - "Standard"
+    - "Estándar"
+    - "スタンダード"
+
+express:
+    - "Express"
+    - "Expresse"
+    - "Expreso"
+    - "エクスプレス"
+
+pay:
+    - "Pay your delivery"
+    - "Payer votre livaison"
+    - "Pagar la entrega"
+    - "配送料の支払い"
+
+deleteOrder:
+    - "Delete this order"
+    - "Supprimer cette commande"
+    - "Borrar este comando"
+    - "このコマンドを削除する"
+
+invoiceDetail:
+    - "Invoice detail"
+    - "Détails de la facture"
+    - "Detalles de la factura"
+    - "請求書の詳細"
+
+waitPayment:
+    - "Waiting for payment"
+    - "En attente du paiement"
+    - "A la espera del pago"
+    - "支払いを待つ"
+
+preparation:
+    - "In preparation"
+    - "En préparation"
+    - "En preparación"
+    - "準備中"
+
+delivered:
+    - "Delivered"
+    - "Délivré"
+    - "Emitido"
+    - "発行"
+
+viewContent:
+    - "View content"
+    - "Voir le contenu"
+    - "Ver contenido"
+    - "コンテンツを見る"
+
+# IN CONFIG FILE
+package:
+    - "Package"
+    - "Colis"
+    - "Paquetes"
+    - "パッケージ"
+
+weight:
+    - "Weight"
+    - "Poids"
+    - "Peso"
+    - "重量"
+
+volume:
+    - "Volume"
+    - "Volume"
+    - "Volumen"
+    - "ボリューム"
+
+email:
+    - "Email"
+    - "Adresse électronique"
+    - "Correo electrónico"
+    - "電子メール"
+
+status:
+    - "Status"
+    - "Statut"
+    - "Estado"
+    - "ステータス"
+
+inDeposit:
+    - "At the depository"
+    - "Au dépôt"
+    - "En el depósito"
+    - "デポにて"
+
+inDelivery:
+    - "In delivery"
+    - "En cours de livraison"
+    - "En curso"
+    - "進行中"
+
+deletePackage:
+    - "Delete this package"
+    - "Supprimer ce colis"
+    - "Eliminar este paquete"
+    - "このパッケージを削除する"
+
+hideContent:
+    - "Hide content"
+    - "Cacher le contenu"
+    - "Ver contenido"
+    - "コンテンツを見る"

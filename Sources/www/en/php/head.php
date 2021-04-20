@@ -1,11 +1,12 @@
 <meta charset="utf-8">
-<title><?=$title?></title>
 <link rel="icon" href="./../../img/LTADevelopmentLogo.ico" />
 <link rel="stylesheet" type="text/css" href="./../../css/home.css">
 <link rel="stylesheet" type="text/css" href="./../../css/header.css">
 <link rel="stylesheet" type="text/css" href="./../../css/footer.css">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.js"></script>
+<script src="./../../js/pages.js"></script>
+<!--API One signal-->
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
    var OneSignal = window.OneSignal || [];

@@ -1,0 +1,115 @@
+customersConnection:
+    - "Customer connexion"
+    - "Connection client"
+    - "Inicio de sesión del cliente"
+    - "お客様ログイン"
+
+deliveryInscription:
+    - "Delivery Inscription"
+    - "Inscription livreur"
+    - "Inscripción de entrega"
+    - "配送時の注意事項"
+
+customerInscription:
+    - "Customer Inscription"
+    - "Inscription client"
+    - "Inscripción del cliente"
+    - "お客様の声"
+
+
+# PLACEHOLDER
+email:
+    - "Email"
+    - "Adresse électronique"
+    - "Correo electrónico"
+    - "電子メール"
+
+password:
+    - "Password"
+    - "Mot de passe"
+    - "Contraseña"
+    - "パスワード"
+
+confirmPassword:
+    - "Confirm password"
+    - "Confirmer mot de passe"
+    - "Confirme su contraseña"
+    - "パスワードの確認"
+
+companyName:
+    - "Company name"
+    - "Nom de la société"
+    - "Nombre de la empresa"
+    - "会社名"
+
+address:
+    - "Address"
+    - "Adresse"
+    - "Dirección"
+    - "アドレス"
+
+telNumber:
+    - "Phone number"
+    - "Numéro de téléphone"
+    - "Número de teléfono"
+    - "電話番号"
+
+firstName:
+    - "First name"
+    - "Prénom"
+    - "Nombre"
+    - "名前"
+
+lastName:
+    - "Last name"
+    - "Nom"
+    - "Apellido"
+    - "苗字"
+
+send:
+    - "Send"
+    - "Envoyer"
+    - "Enviar"
+    - "送信"
+
+haveAccountLbl:
+    - "Already have an account ?"
+    - "Vous avez déjà un compte ?"
+    - "¿Ya tiene una cuenta?"
+    - "すでにアカウントをお持ちの方"
+
+haveAccountLink:
+    - "Log In"
+    - "Connexion"
+    - "Entrar"
+    - "ログイン"
+
+noAccountLbl:
+    - "Don't have an account ?"
+    - "Vous n'avez pas de compte ?"
+    - "¿No tiene una cuenta?"
+    - "アカウントをお持ちでない方"
+
+noAccountLink:
+    - "Sign Up"
+    - "S'inscrire"
+    - "Inscríbete"
+    - "サインアップ"
+
+customerAccountLbl:
+    - "Are you a customer ?"
+    - "Etes-vous un client ?"
+    - "¿Es usted cliente?"
+    - "あなたはお客様ですか？"
+
+deliveryAccountLbl:
+    - "Are you a delivery man ?"
+    - "Etes-vous un livreur ?"
+    - "¿Es usted un repartidor?"
+    - "あなたは配達人ですか？"
+
+signAccountLink:
+    - "Sign here"
+    - "S'inscrire ici"
+    - "Regístrese aquí"
+    - "登録はこちら"

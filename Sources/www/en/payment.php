@@ -1,6 +1,4 @@
 <?php
-    $title = "LTA-development - Payment";
-
     if(!isset($_SESSION))
         session_start();
 
@@ -15,6 +13,7 @@
     }
 
     include_once("./../config/config.php");
+    $ids = require('./../config/paypalTokenCustomer.php');
 
     $tab = billInformation($_COOKIE['idOrder']);
 
@@ -28,6 +27,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
+		<title>LTA-development - Payment</title>
         <?php include("./php/head.php"); ?>
         <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
@@ -43,11 +43,11 @@
 
             <script src="https://www.paypal.com/sdk/js?client-id=ASXCs8-S37AEIDA8s3oJs_E1xfc1BaHnHYWb-YtjDkwCqbi_D3Z-zQGjDKWPUCTw3wL-UNNuvDgPofXa&currency=EUR">
                 // Add your client ID and secret
-                var PAYPAL_CLIENT = 'ASXCs8-S37AEIDA8s3oJs_E1xfc1BaHnHYWb-YtjDkwCqbi_D3Z-zQGjDKWPUCTw3wL-UNNuvDgPofXa';
-                var PAYPAL_SECRET = 'EJdB9p1ythp3A4ZcnNliUYFKbeU_h26vxmuh6KpNC5ioekXPsfELtFVOg3bIBMxBYhbz89FnOKMG_CXd';
+                let PAYPAL_CLIENT = $ids['id'];
+                let PAYPAL_SECRET = $ids['password'];
 
                 // Point your server to the PayPal API
-                var PAYPAL_ORDER_API = 'https://api-m.paypal.com/v2/checkout/orders/';
+                let PAYPAL_ORDER_API = 'https://api-m.paypal.com/v2/checkout/orders/';
             </script>
 
             <div id="paypal-button-container"></div>
